@@ -1,4 +1,4 @@
-package hakit
+package hafile
 
 import (
 	"io"
