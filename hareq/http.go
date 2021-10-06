@@ -3,7 +3,6 @@ package hareq
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -107,30 +106,34 @@ func AuthFastGet(url string, resData interface{}, th string) error {
 	return nil
 }
 
-func FastUpload(filePath string, fileName string, url string, body map[string]string, resData interface{}) error {
+func FastUpload(url string, body map[string]string, resData interface{}, files ...FileToUpload) error {
 	bodyBuf := &bytes.Buffer{}
 	bodyWriter := multipart.NewWriter(bodyBuf)
+	//create body data
 	for key, val := range body {
 		err := bodyWriter.WriteField(key, val)
 		if err != nil {
 			panic(err)
 		}
 	}
-	fileWriter, err := bodyWriter.CreateFormFile(fileName, filePath)
-	if err != nil {
-		fmt.Println("error writing to buffer")
-		panic(err)
-	}
+	//create file data
+	for _, file := range files {
+		fileWriter, err := bodyWriter.CreateFormFile(file.Name, file.Path)
+		if err != nil {
+			log.Println("error writing to buffer")
+			panic(err)
+		}
 
-	fh, err := os.Open(filePath)
-	if err != nil {
-		fmt.Println("error opening file")
-		panic(err)
-	}
-	defer fh.Close()
-	_, err = io.Copy(fileWriter, fh)
-	if err != nil {
-		panic(err)
+		fh, err := os.Open(file.Path)
+		if err != nil {
+			log.Println("error opening file")
+			panic(err)
+		}
+		defer fh.Close()
+		_, err = io.Copy(fileWriter, fh)
+		if err != nil {
+			panic(err)
+		}
 	}
 	contentType := bodyWriter.FormDataContentType()
 	bodyWriter.Close()
@@ -148,4 +151,9 @@ func FastUpload(filePath string, fileName string, url string, body map[string]st
 		panic(err)
 	}
 	return nil
+}
+
+type FileToUpload struct {
+	Name string
+	Path string
 }
