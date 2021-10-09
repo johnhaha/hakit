@@ -12,3 +12,8 @@ func TestCopy(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+//test check and create file
+func TestCreateFile(t *testing.T) {
+	hafile.CheckFile("test.yml")
+}

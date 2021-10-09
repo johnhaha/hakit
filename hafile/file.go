@@ -45,3 +45,16 @@ func ExistFile(path string) bool {
 	}
 	return true
 }
+
+//check if file exist
+func CheckFile(path string) bool {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		f, err := os.Create(path)
+		if err != nil {
+			panic(err)
+		}
+		defer f.Close()
+		return false
+	}
+	return true
+}
