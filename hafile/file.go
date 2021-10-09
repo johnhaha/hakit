@@ -37,3 +37,11 @@ func OpenFile(path string) *os.File {
 	}
 	return file
 }
+
+//check if file exist
+func ExistFile(path string) bool {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return false
+	}
+	return true
+}

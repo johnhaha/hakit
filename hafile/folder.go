@@ -12,10 +12,19 @@ func CopyFolder(src, dst string) error {
 	return err
 }
 
+//check folder and create if not exist
 func CheckFolder(path string) bool {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		os.Mkdir(path, 0700)
 		return true
 	}
 	return false
+}
+
+//check folder and create if not exist
+func ExistFolder(path string) bool {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return false
+	}
+	return true
 }
