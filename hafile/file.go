@@ -1,10 +1,13 @@
 package hafile
 
 import (
+	"errors"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func Copy(src, dst string) error {
@@ -57,4 +60,33 @@ func CheckFile(path string) bool {
 		return false
 	}
 	return true
+}
+
+//write to specific line
+func WriteLine(path string, line int, content string) error {
+	if line < 0 {
+		return errors.New("no such line")
+	}
+	check := ExistFile(path)
+	if !check {
+		return errors.New("no such file")
+	}
+	input, err := ioutil.ReadFile(path)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	lines := strings.Split(string(input), "\n")
+	if len(lines) < line-1 {
+		for i := len(lines); i < line; i++ {
+			lines = append(lines, "")
+		}
+	}
+	lines[line-1] = content
+	output := strings.Join(lines, "\n")
+	err = ioutil.WriteFile(path, []byte(output), 0644)
+	if err != nil {
+		return err
+	}
+	return nil
 }

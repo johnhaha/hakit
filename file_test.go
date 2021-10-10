@@ -17,3 +17,7 @@ func TestCopy(t *testing.T) {
 func TestCreateFile(t *testing.T) {
 	hafile.CheckFile("test.yml")
 }
+
+func TestWriteToFile(t *testing.T) {
+	hafile.WriteLine("test", 10, "changed")
+}
