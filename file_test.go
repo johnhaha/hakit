@@ -21,3 +21,20 @@ func TestCreateFile(t *testing.T) {
 func TestWriteToFile(t *testing.T) {
 	hafile.WriteLine("test", 10, "changed")
 }
+
+func TestRelative(t *testing.T) {
+	type Case struct {
+		Input  string
+		Output bool
+	}
+	cases := []Case{
+		{Input: "path", Output: true},
+		{Input: "/path", Output: false},
+	}
+	for _, c := range cases {
+		res := hafile.CheckRelativePath(c.Input)
+		if res != c.Output {
+			t.Fatal("failed")
+		}
+	}
+}
