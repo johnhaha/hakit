@@ -3,6 +3,7 @@ package hakit_test
 import (
 	"testing"
 
+	"github.com/johnhaha/hakit/hacmd"
 	"github.com/johnhaha/hakit/hafile"
 )
 
@@ -36,5 +37,15 @@ func TestRelative(t *testing.T) {
 		if res != c.Output {
 			t.Fatal("failed")
 		}
+	}
+}
+
+func TestRun(t *testing.T) {
+	ot, err := hacmd.Run("pwd")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ot != "/Users/junwu/develop/pkg/hakit" {
+		t.Fatal("🤬" + ot + "nnnn")
 	}
 }

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os/exec"
+	"strings"
 )
 
 //execute with realtime output
@@ -24,4 +25,12 @@ func Execute(name string, args ...string) {
 		fmt.Println(m)
 	}
 	cmd.Wait()
+}
+
+//run cmd and return string output
+func Run(name string, args ...string) (string, error) {
+	cmd := exec.Command(name, args...)
+	stdout, err := cmd.Output()
+	ot := strings.TrimSuffix(string(stdout), "\n")
+	return ot, err
 }
