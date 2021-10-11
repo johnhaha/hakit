@@ -41,6 +41,7 @@ func (writer *YmlWriter) Write(data interface{}) error {
 	if err != nil {
 		return err
 	}
+	CheckFile(writer.Path)
 	err = ioutil.WriteFile(writer.Path, datao, 0600)
 	if err != nil {
 		return err
