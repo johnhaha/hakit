@@ -10,6 +10,21 @@ import (
 	"strings"
 )
 
+type FileWriter struct {
+	Path string
+}
+
+func NewFileWriter(path string) *FileWriter {
+	CheckFile(path)
+	return &FileWriter{Path: path}
+}
+
+func (writer *FileWriter) Write(text string) error {
+	d := []byte(text)
+	err := os.WriteFile(writer.Path, d, 0644)
+	return err
+}
+
 func Copy(src, dst string) error {
 	in, err := os.Open(src)
 	if err != nil {
