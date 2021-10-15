@@ -105,3 +105,17 @@ func WriteLine(path string, line int, content string) error {
 	}
 	return nil
 }
+
+//append
+func AppendLine(path string, content string) error {
+	f, err := os.OpenFile(path,
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	if _, err := f.WriteString(content); err != nil {
+		return err
+	}
+	return nil
+}

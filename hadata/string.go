@@ -6,10 +6,9 @@ import (
 	"strings"
 )
 
-/*upgrade version
+/* upgrade version
 place start from 1
-can be used in version like 1.0.1 or v1.0.1
-*/
+ can be used in version like 1.0.1 or v1.0 */
 func UpgradeVersion(version string, place int) (string, error) {
 	sp := strings.Split(version, ".")
 	if len(sp) < place {
