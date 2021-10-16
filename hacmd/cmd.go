@@ -15,7 +15,7 @@ func Execute(name string, args ...string) {
 		fmt.Println(err)
 	}
 	err = cmd.Start()
-	fmt.Println("The command is running")
+	// fmt.Println("The command is running")
 	if err != nil {
 		fmt.Println(err)
 	}
