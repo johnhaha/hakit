@@ -35,6 +35,10 @@ func UpgradeVersion(version string, place int) (string, error) {
 			op = op + v
 			continue
 		}
+		if i >= place {
+			op = op + ".0"
+			continue
+		}
 		op = op + "." + v
 	}
 	return op, nil
