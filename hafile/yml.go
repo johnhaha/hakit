@@ -8,6 +8,18 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+type Yml struct {
+	*YmlReader
+	*YmlWriter
+}
+
+func NewYml(path string) *Yml {
+	return &Yml{
+		YmlReader: NewYmlReader(path),
+		YmlWriter: NewYmlWriter(path),
+	}
+}
+
 type YmlReader struct {
 	Path string
 }
