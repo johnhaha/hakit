@@ -11,3 +11,13 @@ func Unique(strSlice []string) []string {
 	}
 	return list
 }
+
+//check is data is in list
+func IsInStringSlice(list []string, data string) bool {
+	for _, l := range list {
+		if l == data {
+			return true
+		}
+	}
+	return false
+}

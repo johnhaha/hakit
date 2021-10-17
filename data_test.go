@@ -33,3 +33,22 @@ func TestUpVersion(t *testing.T) {
 		}
 	}
 }
+
+func TestIsIn(t *testing.T) {
+	vs := []hatest.InOut{
+		{
+			Input:  "ok",
+			Output: true,
+		},
+		{
+			Input:  "not ok",
+			Output: false,
+		},
+	}
+	for _, v := range vs {
+		res := hadata.IsInStringSlice([]string{"ok", "yes"}, v.Input.(string))
+		if res != v.Output {
+			t.Fatal("you fucked")
+		}
+	}
+}
