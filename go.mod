@@ -3,6 +3,7 @@ module github.com/johnhaha/hakit
 go 1.17
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
 	github.com/fatih/color v1.13.0
 	github.com/jinzhu/now v1.1.2
 	github.com/mitchellh/mapstructure v1.4.2
@@ -13,7 +14,6 @@ require (
 )
 
 require (
-	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.9 // indirect

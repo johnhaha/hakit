@@ -1,5 +1,7 @@
 package hadata
 
+import "errors"
+
 func Unique(strSlice []string) []string {
 	keys := make(map[string]bool)
 	list := []string{}
@@ -20,4 +22,15 @@ func IsInStringSlice(list []string, data string) bool {
 		}
 	}
 	return false
+}
+
+//swap slice
+func SwapStringSlice(ds []string) ([]string, error) {
+	if len(ds) != 2 {
+		return nil, errors.New("not support")
+	}
+	dTemp := ds[0]
+	ds[0] = ds[1]
+	ds[1] = dTemp
+	return ds, nil
 }
