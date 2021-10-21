@@ -65,11 +65,12 @@ func TestSwapSlice(t *testing.T) {
 		},
 	}
 	for _, io := range ios {
-		res, err := hadata.SwapStringSlice(io.Input.([]string))
+		ipt := io.Input.([]string)
+		err := hadata.SwapStringSlice(&ipt)
 		if err != nil {
 			t.Fatal(err)
 		}
-		if res[0] != io.Output.([]string)[0] {
+		if ipt[0] != io.Output.([]string)[0] {
 			t.Fatal("oh no")
 		}
 	}

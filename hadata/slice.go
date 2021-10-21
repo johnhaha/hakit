@@ -25,12 +25,12 @@ func IsInStringSlice(list []string, data string) bool {
 }
 
 //swap slice
-func SwapStringSlice(ds []string) ([]string, error) {
-	if len(ds) != 2 {
-		return nil, errors.New("not support")
+func SwapStringSlice(ds *[]string) error {
+	if len(*ds) != 2 {
+		return errors.New("not support")
 	}
-	dTemp := ds[0]
-	ds[0] = ds[1]
-	ds[1] = dTemp
-	return ds, nil
+	dTemp := (*ds)[0]
+	(*ds)[0] = (*ds)[1]
+	(*ds)[1] = dTemp
+	return nil
 }
