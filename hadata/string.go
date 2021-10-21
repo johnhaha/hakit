@@ -43,3 +43,8 @@ func UpgradeVersion(version string, place int) (string, error) {
 	}
 	return op, nil
 }
+
+//get string from int
+func GetStringFromInt(d int) string {
+	return strconv.Itoa(d)
+}
