@@ -24,6 +24,18 @@ func IsInStringSlice(list []string, data string) bool {
 	return false
 }
 
+//get inter of two slice
+
+func InterStringSlice(s1 []string, s2 []string) []string {
+	var op []string
+	for _, s := range s1 {
+		if IsInStringSlice(s2, s) {
+			op = append(op, s)
+		}
+	}
+	return op
+}
+
 //swap slice
 func SwapStringSlice(ds *[]string) error {
 	if len(*ds) != 2 {
