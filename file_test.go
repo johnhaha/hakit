@@ -49,3 +49,8 @@ func TestRun(t *testing.T) {
 		t.Fatal("🤬" + ot + "nnnn")
 	}
 }
+
+func TestUpdateFile(t *testing.T) {
+	wt := hafile.NewFileWriter("test")
+	wt.Update("okddddokok")
+}

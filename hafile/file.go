@@ -25,6 +25,19 @@ func (writer *FileWriter) Write(text string) error {
 	return err
 }
 
+func (writer *FileWriter) Update(text string) error {
+	f, err := os.OpenFile(writer.Path, os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	if _, err = f.WriteString("\n" + text + "\n"); err != nil {
+		return err
+	}
+	return nil
+}
+
 func Copy(src, dst string) error {
 	in, err := os.Open(src)
 	if err != nil {
