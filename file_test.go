@@ -54,3 +54,33 @@ func TestUpdateFile(t *testing.T) {
 	wt := hafile.NewFileWriter("test")
 	wt.Update("okddddokok")
 }
+
+func TestFindText(t *testing.T) {
+	fileReader := hafile.NewFileReader("test")
+	x, err := fileReader.FineText("okddddokok")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if x != 11 {
+		t.Fatal(x)
+	}
+}
+
+func TestReadLine(t *testing.T) {
+	fileReader := hafile.NewFileReader("test")
+	res, err := fileReader.ReadLine(11)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if res != "okddddokok" {
+		t.Fatal(res)
+	}
+}
+
+func BenchmarkReadLine(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		fileReader := hafile.NewFileReader("test")
+		fileReader.ReadLine(11)
+
+	}
+}

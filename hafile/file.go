@@ -1,22 +1,77 @@
 package hafile
 
 import (
+	"bufio"
 	"errors"
-	"io"
-	"io/ioutil"
-	"log"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
+type Filer struct {
+	FileWriter
+	FileReader
+}
+
+func NewFiler(path string) *Filer {
+	CheckFile(path)
+	return &Filer{
+		FileWriter: FileWriter{Path: path},
+		FileReader: FileReader{Path: path},
+	}
+}
+
 type FileWriter struct {
+	Path string
+}
+
+type FileReader struct {
 	Path string
 }
 
 func NewFileWriter(path string) *FileWriter {
 	CheckFile(path)
 	return &FileWriter{Path: path}
+}
+
+func NewFileReader(path string) *FileReader {
+	CheckFile(path)
+	return &FileReader{Path: path}
+}
+func (reader *FileReader) FineText(text string) (int, error) {
+	f, err := os.Open(reader.Path)
+	if err != nil {
+		return -1, err
+	}
+	defer f.Close()
+	line := 1
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		if strings.Contains(scanner.Text(), text) {
+			return line, nil
+		}
+		line++
+	}
+	if err := scanner.Err(); err != nil {
+		return -1, err
+	}
+	return -1, nil
+}
+
+func (reader *FileReader) ReadLine(line int) (string, error) {
+	fileIO, err := os.OpenFile(reader.Path, os.O_RDWR, 0644)
+	if err != nil {
+		panic(err)
+	}
+	defer fileIO.Close()
+	sc := bufio.NewScanner(fileIO)
+	l := 1
+	for sc.Scan() {
+		if l == line {
+			return sc.Text(), sc.Err()
+		}
+		l++
+	}
+	return "", errors.New("not found")
 }
 
 func (writer *FileWriter) Write(text string) error {
@@ -33,101 +88,6 @@ func (writer *FileWriter) Update(text string) error {
 	defer f.Close()
 
 	if _, err = f.WriteString("\n" + text + "\n"); err != nil {
-		return err
-	}
-	return nil
-}
-
-func Copy(src, dst string) error {
-	in, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer in.Close()
-
-	out, err := os.Create(dst)
-	if err != nil {
-		return err
-	}
-	defer out.Close()
-
-	_, err = io.Copy(out, in)
-	if err != nil {
-		return err
-	}
-	return out.Close()
-}
-
-func OpenFile(path string) *os.File {
-	dir := filepath.Dir(path)
-	CheckFolder(dir)
-	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-		return nil
-	}
-	return file
-}
-
-//check if file exist
-func ExistFile(path string) bool {
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		return false
-	}
-	return true
-}
-
-//check if file exist
-func CheckFile(path string) bool {
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		f, err := os.Create(path)
-		if err != nil {
-			panic(err)
-		}
-		defer f.Close()
-		return false
-	}
-	return true
-}
-
-//write to specific line
-func WriteLine(path string, line int, content string) error {
-	if line < 0 {
-		return errors.New("no such line")
-	}
-	check := ExistFile(path)
-	if !check {
-		return errors.New("no such file")
-	}
-	input, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	lines := strings.Split(string(input), "\n")
-	if len(lines) < line-1 {
-		for i := len(lines); i < line; i++ {
-			lines = append(lines, "")
-		}
-	}
-	lines[line-1] = content
-	output := strings.Join(lines, "\n")
-	err = ioutil.WriteFile(path, []byte(output), 0644)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-//append
-func AppendLine(path string, content string) error {
-	f, err := os.OpenFile(path,
-		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-	if _, err := f.WriteString(content); err != nil {
 		return err
 	}
 	return nil
