@@ -1,14 +1,14 @@
 package haerr
 
-func FailOnError(err error, msg string) {
+func FailOnError(err error) {
 	if err != nil {
-		panic(msg)
+		panic(err)
 	}
 }
 
-func PrintOnError(err error, msg string) {
+func PrintOnError(err error) {
 	if err != nil {
-		println(msg)
+		println(err)
 	}
 }
 
