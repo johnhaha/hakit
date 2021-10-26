@@ -53,3 +53,30 @@ func GetIntFromString(s string) (int, error) {
 	intVar, err := strconv.Atoi(s)
 	return intVar, err
 }
+
+type StringBinder struct {
+	Builder strings.Builder
+}
+
+func NewStringBinder() *StringBinder {
+	return &StringBinder{}
+}
+
+func (binder *StringBinder) BindString(str ...string) *StringBinder {
+
+	for _, d := range str {
+		binder.Builder.WriteString(d)
+	}
+	return binder
+}
+
+func (binder *StringBinder) BindInt(num ...int) *StringBinder {
+	for _, d := range num {
+		binder.Builder.WriteString(strconv.Itoa(d))
+	}
+	return binder
+}
+
+func (binder *StringBinder) Value() string {
+	return binder.Builder.String()
+}

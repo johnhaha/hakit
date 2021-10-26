@@ -75,3 +75,10 @@ func TestSwapSlice(t *testing.T) {
 		}
 	}
 }
+
+func TestStringBuilder(t *testing.T) {
+	data := hadata.NewStringBinder().BindString("ok", " ok").BindInt(1, 2, 3).Value()
+	if data != "ok ok123" {
+		t.Fatal(data)
+	}
+}
