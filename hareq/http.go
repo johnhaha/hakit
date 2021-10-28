@@ -17,10 +17,9 @@ func FastPost(body interface{}, url string, resData interface{}) error {
 	bodyBuffer := bytes.NewBuffer(postBody)
 	resp, err := http.Post(url, "application/json", bodyBuffer)
 	if err != nil {
-		log.Printf("An Error Occured %v", err)
+		log.Printf("An Error Occurred %v", err)
 		return err
 	}
-
 	bodyRes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		println(err)
@@ -41,7 +40,7 @@ func FastPost(body interface{}, url string, resData interface{}) error {
 func FastGet(url string, resData interface{}) error {
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Printf("An Error Occured %v", err)
+		log.Printf("An Error Occurred %v", err)
 		return err
 	}
 	defer resp.Body.Close()
@@ -53,6 +52,23 @@ func FastGet(url string, resData interface{}) error {
 	sb := string(bodyRes)
 	err = json.Unmarshal([]byte(sb), resData)
 	return err
+}
+
+//get with url, get decoded res
+func DataGet(url string) (string, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Printf("An Error Occurred %v", err)
+		return "", err
+	}
+	defer resp.Body.Close()
+	bodyRes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		println(err)
+		return "", err
+	}
+	sb := string(bodyRes)
+	return sb, nil
 }
 
 //post with body, url and auth, get decoded res
