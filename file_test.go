@@ -5,6 +5,7 @@ import (
 
 	"github.com/johnhaha/hakit/hacmd"
 	"github.com/johnhaha/hakit/hafile"
+	"github.com/johnhaha/hakit/hareq"
 )
 
 func TestCopy(t *testing.T) {
@@ -82,5 +83,12 @@ func BenchmarkReadLine(b *testing.B) {
 		fileReader := hafile.NewFileReader("test")
 		fileReader.ReadLine(11)
 
+	}
+}
+
+func TestDownloadFile(t *testing.T) {
+	err := hareq.DownloadFileFromUrl("https://www.codegrepper.com/codeimages/user-input-golang.png", ".", "xxx.png")
+	if err != nil {
+		t.Fatal("failed")
 	}
 }

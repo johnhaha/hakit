@@ -3,12 +3,16 @@ package hareq
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io"
 	"io/ioutil"
 	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
+
+	"github.com/johnhaha/hakit/hadata"
+	"github.com/johnhaha/hakit/hafile"
 )
 
 //post with body and url, get decoded res
@@ -172,4 +176,27 @@ func FastUpload(url string, body map[string]string, resData interface{}, files .
 type FileToUpload struct {
 	Name string
 	Path string
+}
+
+func DownloadFileFromUrl(url string, saveIn string, name string) error {
+	response, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer response.Body.Close()
+	if response.StatusCode != 200 {
+		return errors.New("can not get from url, status code" + hadata.GetStringFromInt(response.StatusCode))
+	}
+	hafile.CheckFolder(saveIn)
+	file, err := os.Create(saveIn + "/" + name)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	_, err = io.Copy(file, response.Body)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
