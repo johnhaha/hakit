@@ -3,6 +3,7 @@ package hacmd
 import (
 	"bufio"
 	"fmt"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -33,4 +34,10 @@ func Run(name string, args ...string) (string, error) {
 	stdout, err := cmd.Output()
 	ot := strings.TrimSuffix(string(stdout), "\n")
 	return ot, err
+}
+
+func Read() string {
+	reader := bufio.NewReader(os.Stdin)
+	ot, _ := reader.ReadString('\n')
+	return ot
 }
