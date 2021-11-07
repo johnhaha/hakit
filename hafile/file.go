@@ -3,6 +3,7 @@ package hafile
 import (
 	"bufio"
 	"errors"
+	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -37,6 +38,8 @@ func NewFileReader(path string) *FileReader {
 	CheckFile(path)
 	return &FileReader{Path: path}
 }
+
+//find text in line
 func (reader *FileReader) FineText(text string) (int, error) {
 	f, err := os.Open(reader.Path)
 	if err != nil {
@@ -57,6 +60,7 @@ func (reader *FileReader) FineText(text string) (int, error) {
 	return -1, nil
 }
 
+//read specific line in file
 func (reader *FileReader) ReadLine(line int) (string, error) {
 	fileIO, err := os.OpenFile(reader.Path, os.O_RDWR, 0644)
 	if err != nil {
@@ -72,6 +76,15 @@ func (reader *FileReader) ReadLine(line int) (string, error) {
 		l++
 	}
 	return "", errors.New("not found")
+}
+
+//read file in string
+func (reader *FileReader) Read() (string, error) {
+	data, err := ioutil.ReadFile(reader.Path)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
 }
 
 func (writer *FileWriter) Write(text string) error {
