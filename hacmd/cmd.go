@@ -42,3 +42,8 @@ func Read() string {
 	text := strings.Replace(ot, "\n", "", -1)
 	return text
 }
+
+//run shell file
+func Shell(path string) {
+	Execute("/bin/sh", path)
+}
