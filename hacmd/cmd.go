@@ -44,6 +44,9 @@ func Read() string {
 }
 
 //run shell file
-func Shell(path string) {
-	Execute("/bin/sh", path)
+func Shell(path string, args ...string) {
+	var eArgs []string
+	eArgs = append(eArgs, path)
+	eArgs = append(eArgs, args...)
+	Execute("/bin/sh", eArgs...)
 }
