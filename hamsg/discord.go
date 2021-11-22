@@ -16,7 +16,6 @@ func NewDiscordHook(url string) *DiscordHook {
 	return &DiscordHook{Url: url}
 }
 
-//! untested
 func (hook *DiscordHook) Send(content string) error {
 	c := http.Client{}
 	form := url.Values{}

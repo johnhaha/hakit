@@ -44,6 +44,19 @@ func UpgradeVersion(version string, place int) (string, error) {
 	return op, nil
 }
 
+func VersionToInt(v string, blockLength int) (int, error) {
+	sp := strings.Split(v, ".")
+	for i, s := range sp {
+		for len(s) < blockLength {
+			s = "0" + s
+		}
+		sp[i] = s
+	}
+	combine := NewStringBinder().BindString("1").BindString(sp...)
+	res, err := GetIntFromString(combine.Value())
+	return res, err
+}
+
 //get string from int
 func GetStringFromInt(d int) string {
 	return strconv.Itoa(d)

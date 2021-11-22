@@ -82,3 +82,13 @@ func TestStringBuilder(t *testing.T) {
 		t.Fatal(data)
 	}
 }
+
+func TestVersionToInt(t *testing.T) {
+	res, err := hadata.VersionToInt("0.2.4", 3)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if res != 1000002004 {
+		t.Fatal(res)
+	}
+}
