@@ -92,3 +92,10 @@ func TestVersionToInt(t *testing.T) {
 		t.Fatal(res)
 	}
 }
+
+func TestVersionCleaner(t *testing.T) {
+	res := hadata.VersionCleaner("V111vvvvvv")
+	if res != "111" {
+		t.Fatal(res)
+	}
+}

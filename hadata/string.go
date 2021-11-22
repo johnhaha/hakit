@@ -44,8 +44,9 @@ func UpgradeVersion(version string, place int) (string, error) {
 	return op, nil
 }
 
+//transfer version to int
 func VersionToInt(v string, blockLength int) (int, error) {
-	sp := strings.Split(v, ".")
+	sp := strings.Split(VersionCleaner(v), ".")
 	for i, s := range sp {
 		for len(s) < blockLength {
 			s = "0" + s
@@ -55,6 +56,12 @@ func VersionToInt(v string, blockLength int) (int, error) {
 	combine := NewStringBinder().BindString("1").BindString(sp...)
 	res, err := GetIntFromString(combine.Value())
 	return res, err
+}
+
+//rm v/V from head
+func VersionCleaner(v string) string {
+	s := strings.TrimLeft(v, "vV")
+	return s
 }
 
 //get string from int
