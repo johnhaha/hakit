@@ -100,3 +100,11 @@ func (binder *StringBinder) BindInt(num ...int) *StringBinder {
 func (binder *StringBinder) Value() string {
 	return binder.Builder.String()
 }
+
+//if v1 is empty, then v2
+func EmptyThen(v1 string, v2 string) string {
+	if v1 == "" {
+		return v2
+	}
+	return v1
+}
