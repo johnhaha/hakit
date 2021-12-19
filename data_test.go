@@ -99,3 +99,11 @@ func TestVersionCleaner(t *testing.T) {
 		t.Fatal(res)
 	}
 }
+
+func TestBinder(t *testing.T) {
+	var b hadata.Binder = "binder"
+	res := b.With("o", "k")
+	if res != "binderok" {
+		t.Fatal(res)
+	}
+}
