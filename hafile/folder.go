@@ -1,6 +1,7 @@
 package hafile
 
 import (
+	"io/ioutil"
 	"os"
 
 	"github.com/otiai10/copy"
@@ -27,4 +28,18 @@ func ExistFolder(path string) bool {
 		return false
 	}
 	return true
+}
+
+//check file/folder in path folder
+func CheckFileInPath(name string, path string) (bool, error) {
+	files, err := ioutil.ReadDir(path)
+	if err != nil {
+		return false, err
+	}
+	for _, file := range files {
+		if file.Name() == name {
+			return true, nil
+		}
+	}
+	return false, nil
 }

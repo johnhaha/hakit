@@ -92,3 +92,13 @@ func TestDownloadFile(t *testing.T) {
 		t.Fatal("failed")
 	}
 }
+
+func TestCheckInPath(t *testing.T) {
+	check, err := hafile.CheckFileInPath("hafile", "/Users/junwu/develop/pkg/hakit")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !check {
+		t.Fatal("failed")
+	}
+}
