@@ -102,3 +102,18 @@ func TestCheckInPath(t *testing.T) {
 		t.Fatal("failed")
 	}
 }
+
+func TestReplaceText(t *testing.T) {
+	writer := hafile.NewFileWriter("/Users/junwu/develop/pkg/hakit/test")
+	err := writer.Replace("replace", "dog")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestReplaceInDir(t *testing.T) {
+	err := hafile.ReplaceFileInDir("/Users/junwu/develop/pkg/hakit/temp", "dog", "replace")
+	if err != nil {
+		t.Fatal(err)
+	}
+}

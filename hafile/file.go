@@ -2,6 +2,7 @@ package hafile
 
 import (
 	"bufio"
+	"bytes"
 	"errors"
 	"io/ioutil"
 	"os"
@@ -101,6 +102,20 @@ func (writer *FileWriter) Update(text string) error {
 	defer f.Close()
 
 	if _, err = f.WriteString("\n" + text + "\n"); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (writer *FileWriter) Replace(from string, to string) error {
+	input, err := ioutil.ReadFile(writer.Path)
+	if err != nil {
+		return err
+	}
+
+	output := bytes.Replace(input, []byte(from), []byte(to), -1)
+
+	if err = ioutil.WriteFile(writer.Path, output, 0644); err != nil {
 		return err
 	}
 	return nil

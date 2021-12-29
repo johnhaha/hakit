@@ -3,6 +3,7 @@ package hafile
 import (
 	"errors"
 	"io"
+	"io/fs"
 	"io/ioutil"
 	"log"
 	"os"
@@ -103,4 +104,16 @@ func AppendLine(path string, content string) error {
 		return err
 	}
 	return nil
+}
+
+func ReplaceFileInDir(path string, from string, to string) error {
+	err := filepath.Walk(path, func(path string, info fs.FileInfo, err error) error {
+		if !info.IsDir() {
+			writer := NewFileWriter(path)
+			err := writer.Replace(from, to)
+			return err
+		}
+		return nil
+	})
+	return err
 }
