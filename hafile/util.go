@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/johnhaha/hakit/hadata"
 )
 
 func Copy(src, dst string) error {
@@ -106,12 +108,12 @@ func AppendLine(path string, content string) error {
 	return nil
 }
 
-func ReplaceFileInDir(path string, from string, to string) error {
+func ReplaceFileInDir(path string, from string, to string, neglect ...string) error {
 	err := filepath.Walk(path, func(path string, info fs.FileInfo, err error) error {
-		if !info.IsDir() {
+		if !info.IsDir() && !hadata.IsInStringSlice(neglect, info.Name()) {
 			writer := NewFileWriter(path)
 			err := writer.Replace(from, to)
-			return err
+			log.Print(err)
 		}
 		return nil
 	})

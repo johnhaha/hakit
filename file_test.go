@@ -112,7 +112,7 @@ func TestReplaceText(t *testing.T) {
 }
 
 func TestReplaceInDir(t *testing.T) {
-	err := hafile.ReplaceFileInDir("/Users/junwu/develop/proj/chess", "template", "chess")
+	err := hafile.ReplaceFileInDir("/Users/junwu/develop/proj/chess", "dog", "cat", "test2")
 	if err != nil {
 		t.Fatal(err)
 	}
