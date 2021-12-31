@@ -107,3 +107,11 @@ func TestBinder(t *testing.T) {
 		t.Fatal(res)
 	}
 }
+
+func TestGenerteRandomString(t *testing.T) {
+	res := hadata.GenerateRandomString(5)
+	if len(res) != 5 {
+		t.Fatal(res)
+	}
+	// t.Fatal(res)
+}

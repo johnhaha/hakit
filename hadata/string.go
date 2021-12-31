@@ -2,8 +2,10 @@ package hadata
 
 import (
 	"errors"
+	"math/rand"
 	"strconv"
 	"strings"
+	"time"
 )
 
 /* upgrade version
@@ -107,4 +109,22 @@ func EmptyThen(v1 string, v2 string) string {
 		return v2
 	}
 	return v1
+}
+
+//generate random fixed length string
+var upperLetters = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+var letters = []rune("abcdefghijklmnopqrstuvwxyz")
+var digitalLetters = []rune("1234567890")
+
+func GenerateRandomString(n int) string {
+	var pool []rune
+	pool = append(pool, upperLetters...)
+	pool = append(pool, letters...)
+	pool = append(pool, digitalLetters...)
+	b := make([]rune, n)
+	rand.Seed(time.Now().UnixNano())
+	for i := range b {
+		b[i] = pool[rand.Intn(len(pool))]
+	}
+	return string(b)
 }
