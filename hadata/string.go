@@ -116,7 +116,7 @@ var upperLetters = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 var letters = []rune("abcdefghijklmnopqrstuvwxyz")
 var digitalLetters = []rune("1234567890")
 
-func GenerateRandomString(n int) string {
+func GenerateRandomString(n int, omit ...rune) string {
 	var pool []rune
 	pool = append(pool, upperLetters...)
 	pool = append(pool, letters...)
@@ -125,6 +125,15 @@ func GenerateRandomString(n int) string {
 	rand.Seed(time.Now().UnixNano())
 	for i := range b {
 		b[i] = pool[rand.Intn(len(pool))]
+	}
+	return string(b)
+}
+
+func GenerateRandomStringFromGivenRune(r []rune, n int) string {
+	b := make([]rune, n)
+	rand.Seed(time.Now().UnixNano())
+	for i := range b {
+		b[i] = r[rand.Intn(len(r))]
 	}
 	return string(b)
 }
