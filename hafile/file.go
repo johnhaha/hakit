@@ -41,24 +41,24 @@ func NewFileReader(path string) *FileReader {
 }
 
 //find text in line
-func (reader *FileReader) FineText(text string) (int, error) {
+func (reader *FileReader) FineText(text string) (int, string, error) {
 	f, err := os.Open(reader.Path)
 	if err != nil {
-		return -1, err
+		return -1, "", err
 	}
 	defer f.Close()
 	line := 1
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		if strings.Contains(scanner.Text(), text) {
-			return line, nil
+			return line, scanner.Text(), nil
 		}
 		line++
 	}
 	if err := scanner.Err(); err != nil {
-		return -1, err
+		return -1, "", err
 	}
-	return -1, nil
+	return -1, "", nil
 }
 
 //read specific line in file
@@ -77,6 +77,12 @@ func (reader *FileReader) ReadLine(line int) (string, error) {
 		l++
 	}
 	return "", errors.New("not found")
+}
+
+//read specific line in file
+func (reader *FileReader) ReplaceLine(line int, content string) error {
+	err := WriteLine(reader.Path, line, content)
+	return err
 }
 
 //read file in string

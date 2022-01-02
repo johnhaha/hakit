@@ -58,7 +58,7 @@ func TestUpdateFile(t *testing.T) {
 
 func TestFindText(t *testing.T) {
 	fileReader := hafile.NewFileReader("test")
-	x, err := fileReader.FineText("okddddokok")
+	x, _, err := fileReader.FineText("okddddokok")
 	if err != nil {
 		t.Fatal(err)
 	}
