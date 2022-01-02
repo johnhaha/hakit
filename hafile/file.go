@@ -40,7 +40,7 @@ func NewFileReader(path string) *FileReader {
 	return &FileReader{Path: path}
 }
 
-//find text in line
+//find text in line, return line(start from 1), line content
 func (reader *FileReader) FineText(text string) (int, string, error) {
 	f, err := os.Open(reader.Path)
 	if err != nil {
@@ -79,7 +79,7 @@ func (reader *FileReader) ReadLine(line int) (string, error) {
 	return "", errors.New("not found")
 }
 
-//read specific line in file
+//replace line with content
 func (reader *FileReader) ReplaceLine(line int, content string) error {
 	err := WriteLine(reader.Path, line, content)
 	return err
