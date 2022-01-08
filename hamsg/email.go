@@ -2,7 +2,6 @@ package hamsg
 
 import (
 	"crypto/tls"
-	"net/smtp"
 
 	"gopkg.in/gomail.v2"
 )
@@ -23,14 +22,7 @@ func NewMailer(account string, psw string, smtpHost string, smtpPort int) *Maile
 	}
 }
 
-func (mailer *Mailer) GetAuth() smtp.Auth {
-	auth := smtp.PlainAuth("", mailer.Account, mailer.Psw, mailer.SmtpHost)
-	return auth
-}
-
 func (mailer *Mailer) Send(to string, title string, content string) error {
-	// err := smtp.SendMail(fmt.Sprintf("%v:%v", mailer.SmtpHost, mailer.SmtpPort), mailer.GetAuth(), mailer.Account, []string{to}, []byte(content))
-
 	msg := gomail.NewMessage()
 	msg.SetHeader("From", mailer.Account)
 	msg.SetHeader("To", to)

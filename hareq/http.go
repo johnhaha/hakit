@@ -6,7 +6,6 @@ import (
 	"errors"
 	"io"
 	"io/ioutil"
-	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -21,21 +20,18 @@ func FastPost(body interface{}, url string, resData interface{}) error {
 	bodyBuffer := bytes.NewBuffer(postBody)
 	resp, err := http.Post(url, "application/json", bodyBuffer)
 	if err != nil {
-		log.Printf("An Error Occurred %v", err)
 		return err
 	}
+	defer resp.Body.Close()
 	bodyRes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		println(err)
 		return err
 	}
 	sb := string(bodyRes)
 	err = json.Unmarshal([]byte(sb), resData)
 	if err != nil {
-		println(err.Error())
+		return err
 	}
-	defer recover()
-	defer resp.Body.Close()
 	return nil
 
 }
@@ -44,13 +40,11 @@ func FastPost(body interface{}, url string, resData interface{}) error {
 func FastGet(url string, resData interface{}) error {
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Printf("An Error Occurred %v", err)
 		return err
 	}
 	defer resp.Body.Close()
 	bodyRes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		println(err)
 		return err
 	}
 	sb := string(bodyRes)
@@ -62,13 +56,11 @@ func FastGet(url string, resData interface{}) error {
 func DataGet(url string) (string, error) {
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Printf("An Error Occurred %v", err)
 		return "", err
 	}
 	defer resp.Body.Close()
 	bodyRes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		println(err)
 		return "", err
 	}
 	sb := string(bodyRes)
@@ -85,18 +77,15 @@ func AuthFastPost(body interface{}, url string, resData interface{}, th string) 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Printf("An Error Occured %v", err)
 		return err
 	}
 	defer resp.Body.Close()
 	//Read the response body
 	bodyRes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Println(err.Error())
 		return err
 	}
 	sb := string(bodyRes)
-	log.Print(sb)
 
 	json.Unmarshal([]byte(sb), resData)
 	return nil
@@ -109,18 +98,15 @@ func AuthFastGet(url string, resData interface{}, th string) error {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Printf("An Error Occured %v", err)
 		return err
 	}
 	defer resp.Body.Close()
 	//Read the response body
 	bodyRes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Println(err.Error())
 		return err
 	}
 	sb := string(bodyRes)
-	log.Print(sb)
 
 	json.Unmarshal([]byte(sb), resData)
 	return nil
@@ -133,42 +119,40 @@ func FastUpload(url string, body map[string]string, resData interface{}, files .
 	for key, val := range body {
 		err := bodyWriter.WriteField(key, val)
 		if err != nil {
-			panic(err)
+			return err
 		}
 	}
 	//create file data
 	for _, file := range files {
 		fileWriter, err := bodyWriter.CreateFormFile(file.Name, file.Path)
 		if err != nil {
-			log.Println("error writing to buffer")
-			panic(err)
+			return err
 		}
 
 		fh, err := os.Open(file.Path)
 		if err != nil {
-			log.Println("error opening file")
-			panic(err)
+			return err
 		}
 		defer fh.Close()
 		_, err = io.Copy(fileWriter, fh)
 		if err != nil {
-			panic(err)
+			return err
 		}
 	}
 	contentType := bodyWriter.FormDataContentType()
 	bodyWriter.Close()
 	resp, err := http.Post(url, contentType, bodyBuf)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer resp.Body.Close()
 	resp_body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	err = json.Unmarshal(resp_body, resData)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	return nil
 }
