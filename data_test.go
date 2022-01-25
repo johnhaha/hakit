@@ -115,3 +115,13 @@ func TestGenerteRandomString(t *testing.T) {
 	}
 	// t.Fatal(res)
 }
+
+func TestGetName(t *testing.T) {
+	type Request struct {
+	}
+	data := new(Request)
+	name := hadata.GetStructName(data)
+	if name != "Request" {
+		t.Fatal(name)
+	}
+}

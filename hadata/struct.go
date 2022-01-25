@@ -2,6 +2,7 @@ package hadata
 
 import (
 	"reflect"
+	"strings"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -57,4 +58,23 @@ func StructToStringMap(item interface{}) map[string]string {
 func MapToStruct(input interface{}, output interface{}) error {
 	err := mapstructure.Decode(input, output)
 	return err
+}
+
+func GetStructName(data interface{}) string {
+	t := reflect.TypeOf(data)
+	if t.Kind() == reflect.Ptr {
+		return t.Elem().Name()
+	}
+	return t.Name()
+}
+
+func GetStructNameInLowerCase(data interface{}) string {
+	t := reflect.TypeOf(data)
+	var name string
+	if t.Kind() == reflect.Ptr {
+		name = t.Elem().Name()
+	} else {
+		name = t.Name()
+	}
+	return strings.ToLower(name)
 }
