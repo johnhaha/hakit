@@ -125,3 +125,13 @@ func TestGetName(t *testing.T) {
 		t.Fatal(name)
 	}
 }
+
+func TestGetPointerData(t *testing.T) {
+	i := new(int)
+	*i = 9
+	d, err := hadata.GetPointerData(i)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Fatal(d)
+}

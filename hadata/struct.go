@@ -35,7 +35,6 @@ func StructToMap(item interface{}) map[string]interface{} {
 }
 
 func StructToStringMap(item interface{}) map[string]string {
-
 	res := map[string]string{}
 	if item == nil {
 		return res
