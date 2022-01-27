@@ -77,3 +77,40 @@ func GetStructNameInLowerCase(data interface{}) string {
 	}
 	return strings.ToLower(name)
 }
+
+//return struct tag data, in json key, empty field will be dropped unless specified in including field
+func ReadStructTagData(data interface{}, tag string, includingField ...string) (map[string]interface{}, error) {
+	d, err := ClearPointer(data)
+	if err != nil {
+		return nil, err
+	}
+	t := reflect.TypeOf(d)
+	v := reflect.ValueOf(d)
+	mp := make(map[string]interface{})
+	for i := 0; i < t.NumField(); i++ {
+		f := t.Field(i)
+		if _, ok := f.Tag.Lookup(tag); ok {
+			k, _ := getJsonFieldName(f)
+			fv := v.Field(i)
+			if fv.IsZero() && !IsInStringSlice(includingField, k) {
+				continue
+			}
+			mp[k] = v.Field(i).Interface()
+		}
+	}
+	return mp, nil
+}
+
+func getJsonFieldName(f reflect.StructField) (name string, omitempty bool) {
+	if n, ok := f.Tag.Lookup("json"); ok {
+		ns := strings.Split(n, ",")
+		if len(ns) == 1 {
+			return n, false
+		}
+		if ns[0] == "omitempty" {
+			return ns[1], true
+		}
+		return ns[0], true
+	}
+	return f.Name, false
+}

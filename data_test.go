@@ -135,3 +135,24 @@ func TestGetPointerData(t *testing.T) {
 	}
 	t.Fatal(d)
 }
+
+func TestReadStructTagData(t *testing.T) {
+	type Sample struct {
+		T1 string `json:"t1" test:"1"`
+		T2 string `json:"t2" test:"2"`
+		T3 string `json:"t3"`
+	}
+	data := Sample{
+		T1: "1",
+		T2: "",
+		T3: "3",
+	}
+	res, err := hadata.ReadStructTagData(data, "test", "t2")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, ok := res["t1"]; !ok {
+		t.Fatal(res)
+	}
+	t.Fatal(res)
+}
