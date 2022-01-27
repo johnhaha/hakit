@@ -156,3 +156,27 @@ func TestReadStructTagData(t *testing.T) {
 	}
 	t.Fatal(res)
 }
+
+func TestReadTagMark(t *testing.T) {
+	type Sample struct {
+		T1 string `json:"t1" test:"1"`
+		T2 string `json:"t2" test:"2"`
+		T3 string `json:"t3"`
+	}
+	data := Sample{
+		T1: "1",
+		T2: "",
+		T3: "3",
+	}
+	k, res, err := hadata.LookUpFirstTagMark(data, "test", "1")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if k != "t1" {
+		t.Fatal(k)
+	}
+	if res != "1" {
+		t.Fatal(res)
+	}
+}

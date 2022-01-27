@@ -1,6 +1,7 @@
 package hadata
 
 import (
+	"errors"
 	"reflect"
 	"strings"
 
@@ -101,16 +102,20 @@ func ReadStructTagData(data interface{}, tag string, includingField ...string) (
 	return mp, nil
 }
 
-func getJsonFieldName(f reflect.StructField) (name string, omitempty bool) {
-	if n, ok := f.Tag.Lookup("json"); ok {
-		ns := strings.Split(n, ",")
-		if len(ns) == 1 {
-			return n, false
-		}
-		if ns[0] == "omitempty" {
-			return ns[1], true
-		}
-		return ns[0], true
+func LookUpFirstTagMark(data interface{}, tag string, mark string) (name string, value interface{}, err error) {
+	d, err := ClearPointer(data)
+	if err != nil {
+		return "", nil, err
 	}
-	return f.Name, false
+	t := reflect.TypeOf(d)
+	v := reflect.ValueOf(d)
+	for i := 0; i < t.NumField(); i++ {
+		f := t.Field(i)
+		res := getFiledTagSlice(f, tag)
+		if res != nil && IsInStringSlice(res, mark) {
+			name, _ := getJsonFieldName(f)
+			return name, v.Field(i).Interface(), nil
+		}
+	}
+	return "", nil, errors.New("not found")
 }
