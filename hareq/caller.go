@@ -3,7 +3,6 @@ package hareq
 import (
 	"encoding/json"
 	"errors"
-	"log"
 )
 
 type Caller struct {
@@ -73,7 +72,6 @@ func (caller *Caller) GetHeader() map[string]string {
 func (caller *Caller) Get() *Caller {
 	data, err := Get(caller.GetUrl(), caller.GetHeader())
 	if err != nil {
-		log.Println("err happened on get call", err)
 		caller.Err = err
 		return caller
 	}
@@ -84,8 +82,6 @@ func (caller *Caller) Get() *Caller {
 func (caller *Caller) Post() *Caller {
 	data, err := Post(caller.GetUrl(), caller.Body, caller.GetHeader())
 	if err != nil {
-		// panic(err)
-		log.Println("err happened on post call", err)
 		caller.Err = err
 		return caller
 	}
@@ -93,22 +89,15 @@ func (caller *Caller) Post() *Caller {
 	return caller
 }
 
-func (caller *Caller) Decode(res interface{}) *Caller {
+func (caller *Caller) Decode(res interface{}) error {
+	if caller.Err != nil {
+		return caller.Err
+	}
 	if caller.Data == nil {
-		log.Println("nothing to decode")
-		caller.Err = errors.New("nothing to decode")
-		return caller
+		return errors.New("nothing to decode")
 	}
 	err := json.Unmarshal(caller.Data, res)
-	caller.Err = err
-	return caller
-}
-
-func (caller *Caller) OnErr(handler func(error)) *Caller {
-	if caller.Err != nil {
-		handler(caller.Err)
-	}
-	return caller
+	return err
 }
 
 func (caller *Caller) GetData() string {

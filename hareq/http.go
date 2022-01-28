@@ -68,21 +68,6 @@ func FastGet(url string, resData interface{}) error {
 	return err
 }
 
-//get with url, get decoded res
-// func DataGet(url string) (string, error) {
-// 	resp, err := http.Get(url)
-// 	if err != nil {
-// 		return "", err
-// 	}
-// 	defer resp.Body.Close()
-// 	bodyRes, err := ioutil.ReadAll(resp.Body)
-// 	if err != nil {
-// 		return "", err
-// 	}
-// 	sb := string(bodyRes)
-// 	return sb, nil
-// }
-
 //post with body, url and auth, get decoded res
 func AuthFastPost(body interface{}, url string, resData interface{}, th string) error {
 	res, err := Post(url, body, map[string]string{
