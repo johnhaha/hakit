@@ -14,102 +14,99 @@ import (
 	"github.com/johnhaha/hakit/hafile"
 )
 
-//post with body and url, get decoded res
-func FastPost(body interface{}, url string, resData interface{}) error {
-	postBody, _ := json.Marshal(body)
-	bodyBuffer := bytes.NewBuffer(postBody)
-	resp, err := http.Post(url, "application/json", bodyBuffer)
+func Get(url string, header map[string]string) ([]byte, error) {
+	req, _ := http.NewRequest("GET", url, nil)
+	for k, v := range header {
+		req.Header.Set(k, v)
+	}
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
 	bodyRes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return err
-	}
-	sb := string(bodyRes)
-	err = json.Unmarshal([]byte(sb), resData)
-	if err != nil {
-		return err
-	}
-	return nil
-
+	return bodyRes, err
 }
 
-//get with url, get decoded res
-func FastGet(url string, resData interface{}) error {
-	resp, err := http.Get(url)
+func Post(url string, body interface{}, header map[string]string) ([]byte, error) {
+	postBody, _ := json.Marshal(body)
+	responseBody := bytes.NewBuffer(postBody)
+	req, _ := http.NewRequest("POST", url, responseBody)
+	for k, v := range header {
+		req.Header.Set(k, v)
+	}
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
 	bodyRes, err := ioutil.ReadAll(resp.Body)
+	return bodyRes, err
+}
+
+//post with body and url, get decoded res
+func FastPost(body interface{}, url string, resData interface{}) error {
+	res, err := Post(url, body, map[string]string{
+		"Content-Type": "application/json; charset=utf-8",
+	})
 	if err != nil {
 		return err
 	}
-	sb := string(bodyRes)
-	err = json.Unmarshal([]byte(sb), resData)
+	err = json.Unmarshal(res, resData)
 	return err
 }
 
 //get with url, get decoded res
-func DataGet(url string) (string, error) {
-	resp, err := http.Get(url)
+func FastGet(url string, resData interface{}) error {
+	res, err := Get(url, nil)
 	if err != nil {
-		return "", err
+		return err
 	}
-	defer resp.Body.Close()
-	bodyRes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", err
-	}
-	sb := string(bodyRes)
-	return sb, nil
+	err = json.Unmarshal(res, resData)
+	return err
 }
+
+//get with url, get decoded res
+// func DataGet(url string) (string, error) {
+// 	resp, err := http.Get(url)
+// 	if err != nil {
+// 		return "", err
+// 	}
+// 	defer resp.Body.Close()
+// 	bodyRes, err := ioutil.ReadAll(resp.Body)
+// 	if err != nil {
+// 		return "", err
+// 	}
+// 	sb := string(bodyRes)
+// 	return sb, nil
+// }
 
 //post with body, url and auth, get decoded res
 func AuthFastPost(body interface{}, url string, resData interface{}, th string) error {
-	postBody, _ := json.Marshal(body)
-	responseBody := bytes.NewBuffer(postBody)
-	req, _ := http.NewRequest("POST", url, responseBody)
-	req.Header.Set("Authorization", th)
-	req.Header.Set("Content-Type", "application/json; charset=utf-8")
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	res, err := Post(url, body, map[string]string{
+		"Authorization": th,
+		"Content-Type":  "application/json; charset=utf-8",
+	})
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
-	//Read the response body
-	bodyRes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return err
-	}
-	sb := string(bodyRes)
+	err = json.Unmarshal(res, resData)
+	return err
 
-	json.Unmarshal([]byte(sb), resData)
-	return nil
 }
 
 func AuthFastGet(url string, resData interface{}, th string) error {
-	req, _ := http.NewRequest("GET", url, nil)
-	req.Header.Set("Authorization", th)
-	req.Header.Set("Content-Type", "application/json; charset=utf-8")
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	res, err := Get(url, map[string]string{
+		"Authorization": th,
+		"Content-Type":  "application/json; charset=utf-8",
+	})
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
-	//Read the response body
-	bodyRes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return err
-	}
-	sb := string(bodyRes)
-
-	json.Unmarshal([]byte(sb), resData)
-	return nil
+	err = json.Unmarshal(res, resData)
+	return err
 }
 
 func FastUpload(url string, body map[string]string, resData interface{}, files ...FileToUpload) error {
