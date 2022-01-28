@@ -40,6 +40,11 @@ func (caller *Caller) SetAuth(auth string) *Caller {
 	return caller
 }
 
+func (caller *Caller) SetUrl(url string) *Caller {
+	caller.Url = url
+	return caller
+}
+
 func (caller *Caller) GetUrl() string {
 	if len(caller.Param) == 0 {
 		return caller.Url
