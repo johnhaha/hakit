@@ -59,3 +59,9 @@ func TestCallerPost(t *testing.T) {
 		t.Fatal(res)
 	}
 }
+
+func TestGetCallerUrl(t *testing.T) {
+	caller := hareq.NewCaller("http://test")
+	url := caller.SetQuery(map[string]string{"ko": "ok"}).AddQuery("fd", "sd").AddQuery("mn", "zx").GetUrl()
+	t.Fatal(url)
+}

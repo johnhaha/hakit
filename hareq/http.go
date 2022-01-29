@@ -29,10 +29,42 @@ func Get(url string, header map[string]string) ([]byte, error) {
 	return bodyRes, err
 }
 
+func Delete(url string, header map[string]string) ([]byte, error) {
+	req, _ := http.NewRequest("DELETE", url, nil)
+	for k, v := range header {
+		req.Header.Set(k, v)
+	}
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	bodyRes, err := ioutil.ReadAll(resp.Body)
+	return bodyRes, err
+}
+
 func Post(url string, body interface{}, header map[string]string) ([]byte, error) {
 	postBody, _ := json.Marshal(body)
 	responseBody := bytes.NewBuffer(postBody)
 	req, _ := http.NewRequest("POST", url, responseBody)
+	for k, v := range header {
+		req.Header.Set(k, v)
+	}
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	bodyRes, err := ioutil.ReadAll(resp.Body)
+	return bodyRes, err
+}
+
+func Put(url string, body interface{}, header map[string]string) ([]byte, error) {
+	postBody, _ := json.Marshal(body)
+	responseBody := bytes.NewBuffer(postBody)
+	req, _ := http.NewRequest("PUT", url, responseBody)
 	for k, v := range header {
 		req.Header.Set(k, v)
 	}
