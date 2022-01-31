@@ -1,5 +1,7 @@
 package hadata
 
+import "reflect"
+
 func GetStringFromInterface(x interface{}) string {
 	switch v := x.(type) {
 	case string:
@@ -7,4 +9,8 @@ func GetStringFromInterface(x interface{}) string {
 	default:
 		return ""
 	}
+}
+
+func CheckInterfaceIsSlice(x interface{}) bool {
+	return reflect.TypeOf(x).Kind() == reflect.Slice
 }
