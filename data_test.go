@@ -180,3 +180,28 @@ func TestReadTagMark(t *testing.T) {
 		t.Fatal(res)
 	}
 }
+
+func TestSliceCheck(t *testing.T) {
+	test1 := []string{"s", "2"}
+	test2 := "x"
+	check1, _ := hadata.CheckInterfaceDataIsSlice(test1)
+	check2, _ := hadata.CheckInterfaceDataIsSlice(test2)
+	if !check1 {
+		t.Fatal()
+	}
+	if check2 {
+		t.Fatal()
+	}
+}
+
+func TestGetSliceFromInterface(t *testing.T) {
+	test1 := []string{"s", "2"}
+	test2 := &test1
+	res, err := hadata.GetSliceFromInterface(test2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(res) != 2 {
+		t.Fatal()
+	}
+}

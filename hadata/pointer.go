@@ -13,10 +13,11 @@ func GetPointerData(data interface{}) (interface{}, error) {
 	return nil, errors.New("not a pointer")
 }
 
-func ClearPointer(data interface{}) (interface{}, error) {
+func ClearPointer(data interface{}) interface{} {
 	t := reflect.TypeOf(data)
 	if t.Kind() == reflect.Ptr {
-		return GetPointerData(data)
+		v, _ := GetPointerData(data)
+		return v
 	}
-	return data, nil
+	return data
 }

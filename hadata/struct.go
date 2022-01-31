@@ -81,10 +81,8 @@ func GetStructNameInLowerCase(data interface{}) string {
 
 //return struct tag data, in json key, empty field will be dropped unless specified in including field
 func ReadStructTagData(data interface{}, tag string, includingField ...string) (map[string]interface{}, error) {
-	d, err := ClearPointer(data)
-	if err != nil {
-		return nil, err
-	}
+	d := ClearPointer(data)
+
 	t := reflect.TypeOf(d)
 	v := reflect.ValueOf(d)
 	mp := make(map[string]interface{})
@@ -103,10 +101,8 @@ func ReadStructTagData(data interface{}, tag string, includingField ...string) (
 }
 
 func LookUpFirstTagMark(data interface{}, tag string, mark string) (name string, value interface{}, err error) {
-	d, err := ClearPointer(data)
-	if err != nil {
-		return "", nil, err
-	}
+	d := ClearPointer(data)
+
 	t := reflect.TypeOf(d)
 	v := reflect.ValueOf(d)
 	for i := 0; i < t.NumField(); i++ {
