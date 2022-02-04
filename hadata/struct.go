@@ -8,9 +8,9 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-func StructToMap(item interface{}) map[string]interface{} {
+func StructToMap(item any) map[string]any {
 
-	res := map[string]interface{}{}
+	res := map[string]any{}
 	if item == nil {
 		return res
 	}
@@ -35,7 +35,7 @@ func StructToMap(item interface{}) map[string]interface{} {
 	return res
 }
 
-func StructToStringMap(item interface{}) map[string]string {
+func StructToStringMap(item any) map[string]string {
 	res := map[string]string{}
 	if item == nil {
 		return res
@@ -55,12 +55,12 @@ func StructToStringMap(item interface{}) map[string]string {
 	return res
 }
 
-func MapToStruct(input interface{}, output interface{}) error {
+func MapToStruct(input any, output any) error {
 	err := mapstructure.Decode(input, output)
 	return err
 }
 
-func GetStructName(data interface{}) string {
+func GetStructName(data any) string {
 	t := reflect.TypeOf(data)
 	if t.Kind() == reflect.Ptr {
 		return t.Elem().Name()
@@ -68,7 +68,7 @@ func GetStructName(data interface{}) string {
 	return t.Name()
 }
 
-func GetStructNameInLowerCase(data interface{}) string {
+func GetStructNameInLowerCase(data any) string {
 	t := reflect.TypeOf(data)
 	var name string
 	if t.Kind() == reflect.Ptr {
@@ -80,18 +80,18 @@ func GetStructNameInLowerCase(data interface{}) string {
 }
 
 //return struct tag data, in json key, empty field will be dropped unless specified in including field
-func ReadStructTagData(data interface{}, tag string, includingField ...string) (map[string]interface{}, error) {
+func ReadStructTagData(data any, tag string, includingField ...string) (map[string]any, error) {
 	d := ClearPointer(data)
 
 	t := reflect.TypeOf(d)
 	v := reflect.ValueOf(d)
-	mp := make(map[string]interface{})
+	mp := make(map[string]any)
 	for i := 0; i < t.NumField(); i++ {
 		f := t.Field(i)
 		if _, ok := f.Tag.Lookup(tag); ok {
 			k, _ := getJsonFieldName(f)
 			fv := v.Field(i)
-			if fv.IsZero() && !IsInStringSlice(includingField, k) {
+			if fv.IsZero() && !IsInSlice(includingField, k) {
 				continue
 			}
 			mp[k] = v.Field(i).Interface()
@@ -100,7 +100,7 @@ func ReadStructTagData(data interface{}, tag string, includingField ...string) (
 	return mp, nil
 }
 
-func LookUpFirstTagMark(data interface{}, tag string, mark string) (name string, value interface{}, err error) {
+func LookUpFirstTagMark(data any, tag string, mark string) (name string, value any, err error) {
 	d := ClearPointer(data)
 
 	t := reflect.TypeOf(d)
@@ -108,7 +108,7 @@ func LookUpFirstTagMark(data interface{}, tag string, mark string) (name string,
 	for i := 0; i < t.NumField(); i++ {
 		f := t.Field(i)
 		res := getFiledTagSlice(f, tag)
-		if res != nil && IsInStringSlice(res, mark) {
+		if res != nil && IsInSlice(res, mark) {
 			name, _ := getJsonFieldName(f)
 			return name, v.Field(i).Interface(), nil
 		}

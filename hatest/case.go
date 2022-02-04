@@ -1,11 +1,6 @@
 package hatest
 
-type StringInOut struct {
-	Input  string
-	Output string
-}
-
-type InOut struct {
-	Input  interface{}
-	Output interface{}
+type InOut[T1 any, T2 any] struct {
+	Input  T1
+	Output T2
 }

@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func GetPointerData(data interface{}) (interface{}, error) {
+func GetPointerData(data any) (any, error) {
 	v := reflect.ValueOf(data)
 	if v.Kind() == reflect.Ptr {
 		return v.Elem().Interface(), nil
@@ -13,7 +13,7 @@ func GetPointerData(data interface{}) (interface{}, error) {
 	return nil, errors.New("not a pointer")
 }
 
-func ClearPointer(data interface{}) interface{} {
+func ClearPointer(data any) any {
 	t := reflect.TypeOf(data)
 	if t.Kind() == reflect.Ptr {
 		v, _ := GetPointerData(data)

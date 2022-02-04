@@ -2,9 +2,9 @@ package hadata
 
 import "errors"
 
-func Unique(strSlice []string) []string {
-	keys := make(map[string]bool)
-	list := []string{}
+func Unique[T comparable](strSlice []T) []T {
+	keys := make(map[T]bool)
+	list := []T{}
 	for _, entry := range strSlice {
 		if _, value := keys[entry]; !value {
 			keys[entry] = true
@@ -15,7 +15,7 @@ func Unique(strSlice []string) []string {
 }
 
 //check is data is in list
-func IsInStringSlice(list []string, data string) bool {
+func IsInSlice[T comparable](list []T, data T) bool {
 	for _, l := range list {
 		if l == data {
 			return true
@@ -26,10 +26,10 @@ func IsInStringSlice(list []string, data string) bool {
 
 //get inter of two slice
 
-func InterStringSlice(s1 []string, s2 []string) []string {
-	var op []string
+func InterSlice[T comparable](s1 []T, s2 []T) []T {
+	var op []T
 	for _, s := range s1 {
-		if IsInStringSlice(s2, s) {
+		if IsInSlice(s2, s) {
 			op = append(op, s)
 		}
 	}
@@ -37,7 +37,7 @@ func InterStringSlice(s1 []string, s2 []string) []string {
 }
 
 //swap slice
-func SwapStringSlice(ds *[]string) error {
+func SwapSlice[T any](ds *[]T) error {
 	if len(*ds) != 2 {
 		return errors.New("not support")
 	}

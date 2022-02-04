@@ -9,7 +9,7 @@ import (
 )
 
 func TestUpVersion(t *testing.T) {
-	v := []hatest.StringInOut{
+	v := []hatest.InOut[string, string]{
 		{
 			Input:  "1.0.1",
 			Output: "2.0.0",
@@ -35,7 +35,7 @@ func TestUpVersion(t *testing.T) {
 }
 
 func TestIsIn(t *testing.T) {
-	vs := []hatest.InOut{
+	vs := []hatest.InOut[string, bool]{
 		{
 			Input:  "ok",
 			Output: true,
@@ -46,7 +46,7 @@ func TestIsIn(t *testing.T) {
 		},
 	}
 	for _, v := range vs {
-		res := hadata.IsInStringSlice([]string{"ok", "yes"}, v.Input.(string))
+		res := hadata.IsInSlice([]string{"ok", "yes"}, v.Input)
 		if res != v.Output {
 			t.Fatal("you fucked")
 		}
@@ -54,7 +54,7 @@ func TestIsIn(t *testing.T) {
 }
 
 func TestSwapSlice(t *testing.T) {
-	ios := []hatest.InOut{
+	ios := []hatest.InOut[[]string, []string]{
 		{
 			Input:  []string{"1", "2"},
 			Output: []string{"2", "1"},
@@ -65,12 +65,12 @@ func TestSwapSlice(t *testing.T) {
 		},
 	}
 	for _, io := range ios {
-		ipt := io.Input.([]string)
-		err := hadata.SwapStringSlice(&ipt)
+		ipt := io.Input
+		err := hadata.SwapSlice(&ipt)
 		if err != nil {
 			t.Fatal(err)
 		}
-		if ipt[0] != io.Output.([]string)[0] {
+		if ipt[0] != io.Output[0] {
 			t.Fatal("oh no")
 		}
 	}

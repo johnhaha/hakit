@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func GetStringFromInterface(x interface{}) string {
+func GetStringFromInterface(x any) string {
 	switch v := x.(type) {
 	case string:
 		return v
@@ -14,18 +14,18 @@ func GetStringFromInterface(x interface{}) string {
 	}
 }
 
-func CheckInterfaceDataIsSlice(x interface{}) (bool, interface{}) {
+func CheckInterfaceDataIsSlice(x any) (bool, any) {
 	data := ClearPointer(x)
 	return reflect.TypeOf(data).Kind() == reflect.Slice, data
 }
 
-func GetSliceFromInterface(x interface{}) ([]interface{}, error) {
+func GetSliceFromInterface(x any) ([]any, error) {
 	check, data := CheckInterfaceDataIsSlice(x)
 	if !check {
 		return nil, errors.New("not a slice")
 	}
 	s := reflect.ValueOf(data)
-	ot := make([]interface{}, s.Len())
+	ot := make([]any, s.Len())
 	for i := 0; i < s.Len(); i++ {
 		ot[i] = s.Index(i).Interface()
 	}

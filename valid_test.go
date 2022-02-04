@@ -8,7 +8,7 @@ import (
 )
 
 func TestIP(t *testing.T) {
-	checks := []hatest.InOut{
+	checks := []hatest.InOut[string, int]{
 		{
 			Input:  "not ip",
 			Output: 0,
@@ -23,8 +23,8 @@ func TestIP(t *testing.T) {
 		},
 	}
 	for _, c := range checks {
-		res := havalid.IPCheck(c.Input.(string))
-		if res != c.Output.(int) {
+		res := havalid.IPCheck(c.Input)
+		if res != c.Output {
 			t.Fatal(res)
 		}
 	}

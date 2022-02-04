@@ -116,7 +116,7 @@ var upperLetters = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 var letters = []rune("abcdefghijklmnopqrstuvwxyz")
 var digitalLetters = []rune("1234567890")
 
-func GenerateRandomString(n int, omit ...rune) string {
+func GenerateRandomString(n int) string {
 	var pool []rune
 	pool = append(pool, upperLetters...)
 	pool = append(pool, letters...)

@@ -1,1 +1,0 @@
-package hakit_test

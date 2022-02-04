@@ -129,7 +129,7 @@ func (caller *Caller) Delete() *Caller {
 	return caller
 }
 
-func (caller *Caller) Decode(res interface{}) error {
+func (caller *Caller) Decode(res any) error {
 	if caller.Err != nil {
 		return caller.Err
 	}
