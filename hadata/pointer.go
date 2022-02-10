@@ -21,3 +21,8 @@ func ClearPointer(data any) any {
 	}
 	return data
 }
+
+func CheckIsPointer(data any) bool {
+	t := reflect.TypeOf(data)
+	return t.Kind() == reflect.Ptr
+}
