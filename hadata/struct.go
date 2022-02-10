@@ -115,3 +115,39 @@ func LookUpFirstTagMark(data any, tag string, mark string) (name string, value a
 	}
 	return "", nil, errors.New("not found")
 }
+
+//return field in json tag name
+func FindTagFiled[T any](tag string, mark string) []string {
+	var data T
+	d := ClearPointer(data)
+	t := reflect.TypeOf(d)
+	var filed []string
+	for i := 0; i < t.NumField(); i++ {
+		f := t.Field(i)
+		res := getFiledTagSlice(f, tag)
+		if res != nil && IsInSlice(res, mark) {
+			name, _ := getJsonFieldName(f)
+			filed = append(filed, name)
+		}
+	}
+	return filed
+}
+
+//return field in json tag name
+func FindTypeFiled[T any, V any]() []string {
+	var data T
+	var target V
+	cd := ClearPointer(data)
+	ct := ClearPointer(target)
+	td := reflect.TypeOf(cd)
+	tv := reflect.TypeOf(ct)
+	var filed []string
+	for i := 0; i < td.NumField(); i++ {
+		f := td.Field(i)
+		if f.Type == tv {
+			name, _ := getJsonFieldName(f)
+			filed = append(filed, name)
+		}
+	}
+	return filed
+}

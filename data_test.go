@@ -126,6 +126,16 @@ func TestGetName(t *testing.T) {
 	}
 }
 
+func TestGetNameInLowerCase(t *testing.T) {
+	type Request struct {
+	}
+	data := new(Request)
+	name := hadata.GetStructNameInLowerCase(data)
+	if name != "request" {
+		t.Fatal(name)
+	}
+}
+
 func TestGetPointerData(t *testing.T) {
 	i := new(int)
 	*i = 9
@@ -203,5 +213,27 @@ func TestGetSliceFromInterface(t *testing.T) {
 	}
 	if len(res) != 2 {
 		t.Fatal()
+	}
+}
+
+func TestFindTagFiled(t *testing.T) {
+	type SampleData struct {
+		T1 string `json:"t1" hamo:"index"`
+		T2 string `json:"t2" hamo:"location"`
+	}
+	res := hadata.FindTagFiled[SampleData]("hamo", "location")
+	if res[0] != "t2" {
+		t.Fatal(res)
+	}
+}
+
+func TestFindTypeFiled(t *testing.T) {
+	type SampleData struct {
+		T1 string `json:"t1" hamo:"index"`
+		T2 string `json:"t2" hamo:"location"`
+	}
+	res := hadata.FindTypeFiled[SampleData, string]()
+	if res[0] != "t1" {
+		t.Fatal(res)
 	}
 }
