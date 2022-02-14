@@ -100,6 +100,14 @@ func (writer *FileWriter) Write(text string) error {
 	return err
 }
 
+func (writer *FileWriter) WriteLine(data []string) error {
+	var ot string
+	for _, d := range data {
+		ot += d + "\n"
+	}
+	return writer.Write(ot)
+}
+
 func (writer *FileWriter) Update(text string) error {
 	f, err := os.OpenFile(writer.Path, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {

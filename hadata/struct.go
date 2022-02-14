@@ -89,7 +89,7 @@ func ReadStructTagData(data any, tag string, includingField ...string) (map[stri
 	for i := 0; i < t.NumField(); i++ {
 		f := t.Field(i)
 		if _, ok := f.Tag.Lookup(tag); ok {
-			k, _ := getJsonFieldName(f)
+			k, _ := GetJsonFieldName(f)
 			fv := v.Field(i)
 			if fv.IsZero() && !IsInSlice(includingField, k) {
 				continue
@@ -107,9 +107,9 @@ func LookUpFirstTagMark(data any, tag string, mark string) (name string, value a
 	v := reflect.ValueOf(d)
 	for i := 0; i < t.NumField(); i++ {
 		f := t.Field(i)
-		res := getFiledTagSlice(f, tag)
+		res := GetFiledTagSlice(f, tag)
 		if res != nil && IsInSlice(res, mark) {
-			name, _ := getJsonFieldName(f)
+			name, _ := GetJsonFieldName(f)
 			return name, v.Field(i).Interface(), nil
 		}
 	}
@@ -124,9 +124,9 @@ func FindTagFiled[T any](tag string, mark string) []string {
 	var filed []string
 	for i := 0; i < t.NumField(); i++ {
 		f := t.Field(i)
-		res := getFiledTagSlice(f, tag)
+		res := GetFiledTagSlice(f, tag)
 		if res != nil && IsInSlice(res, mark) {
-			name, _ := getJsonFieldName(f)
+			name, _ := GetJsonFieldName(f)
 			filed = append(filed, name)
 		}
 	}
@@ -145,7 +145,7 @@ func FindTypeFiled[T any, V any]() []string {
 	for i := 0; i < td.NumField(); i++ {
 		f := td.Field(i)
 		if f.Type == tv {
-			name, _ := getJsonFieldName(f)
+			name, _ := GetJsonFieldName(f)
 			filed = append(filed, name)
 		}
 	}

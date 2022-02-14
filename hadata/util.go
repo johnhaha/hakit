@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func getJsonFieldName(f reflect.StructField) (name string, omitempty bool) {
+func GetJsonFieldName(f reflect.StructField) (name string, omitempty bool) {
 	if n, ok := f.Tag.Lookup("json"); ok {
 		ns := strings.Split(n, ",")
 		if len(ns) == 1 {
@@ -16,7 +16,7 @@ func getJsonFieldName(f reflect.StructField) (name string, omitempty bool) {
 	return f.Name, false
 }
 
-func getFiledTagSlice(f reflect.StructField, tag string) []string {
+func GetFiledTagSlice(f reflect.StructField, tag string) []string {
 	if n, ok := f.Tag.Lookup(tag); ok {
 		s := strings.Split(n, ",")
 		return s
