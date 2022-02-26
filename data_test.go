@@ -237,3 +237,9 @@ func TestFindTypeFiled(t *testing.T) {
 		t.Fatal(res)
 	}
 }
+
+func TestBinderLine(t *testing.T) {
+	x := hadata.NewStringBinder()
+	x.BindWithNewLine("xxx", "yyy", "xxx")
+	// t.Fatal(x.Value())
+}

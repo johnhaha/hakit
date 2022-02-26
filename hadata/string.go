@@ -102,6 +102,14 @@ func (binder *StringBinder) BindWithSpace(str ...string) *StringBinder {
 	return binder
 }
 
+func (binder *StringBinder) BindWithNewLine(str ...string) *StringBinder {
+	for _, d := range str {
+		binder.Builder.WriteString(d)
+		binder.Builder.WriteString("\n")
+	}
+	return binder
+}
+
 func (binder *StringBinder) BindInt(num ...int) *StringBinder {
 	for _, d := range num {
 		binder.Builder.WriteString(strconv.Itoa(d))
