@@ -43,3 +43,7 @@ func CheckFileInPath(name string, path string) (bool, error) {
 	}
 	return false, nil
 }
+
+func RemFolder(path string) error {
+	return os.RemoveAll(path)
+}

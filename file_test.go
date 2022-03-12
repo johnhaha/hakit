@@ -117,3 +117,7 @@ func TestReplaceInDir(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestRem(t *testing.T) {
+	hafile.RemFolder("/Users/junwu/develop/pkg/hakit/testssss")
+}
