@@ -243,3 +243,23 @@ func TestBinderLine(t *testing.T) {
 	x.BindWithNewLine("xxx", "yyy", "xxx")
 	// t.Fatal(x.Value())
 }
+
+func FuzzGetRandom(f *testing.F) {
+	for i := 0; i < 100; i++ {
+		f.Add(i, i+hadata.GetRandomNumber(1, 100))
+	}
+	f.Fuzz(func(t *testing.T, min int, max int) {
+		if max == min {
+			t.Fatal(max)
+		}
+		r := hadata.GetRandomNumber(min, max)
+		if r < min || r >= max {
+			t.Fatal(r)
+		}
+	})
+}
+
+func TestRandom(t *testing.T) {
+	r := hadata.GetManyRandomNumber(0, 10, 3)
+	t.Fatal(r)
+}
