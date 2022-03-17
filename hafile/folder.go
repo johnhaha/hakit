@@ -47,3 +47,18 @@ func CheckFileInPath(name string, path string) (bool, error) {
 func RemFolder(path string) error {
 	return os.RemoveAll(path)
 }
+
+func ListFolderFile(path string, remDir bool) ([]string, error) {
+	files, err := ioutil.ReadDir(path)
+	if err != nil {
+		return nil, err
+	}
+	var ot []string
+	for _, f := range files {
+		if remDir && f.IsDir() {
+			continue
+		}
+		ot = append(ot, f.Name())
+	}
+	return ot, nil
+}

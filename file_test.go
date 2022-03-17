@@ -121,3 +121,13 @@ func TestReplaceInDir(t *testing.T) {
 func TestRem(t *testing.T) {
 	hafile.RemFolder("/Users/junwu/develop/pkg/hakit/testssss")
 }
+
+func TestListFolderFile(t *testing.T) {
+	res, err := hafile.ListFolderFile("hafile", false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(res) != 6 {
+		t.Fatal(res)
+	}
+}
