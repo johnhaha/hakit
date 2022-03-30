@@ -21,11 +21,11 @@ func SundayFrom(tm time.Time) time.Time {
 // caution: sunday is last day of week
 func SaturdayOf(tm time.Time) time.Time {
 	now.WeekStartDay = time.Monday
-	return now.With(tm).EndOfWeek().Add(-time.Hour*24 + 1)
+	return now.With(tm).EndOfWeek().Add(-time.Hour*48 + 1)
 }
 
 // caution: sunday is last day of week
 func SundayOf(tm time.Time) time.Time {
 	now.WeekStartDay = time.Monday
-	return now.With(tm).EndOfWeek().Add(1)
+	return now.With(tm).EndOfWeek().Add(-time.Hour*24 + 1)
 }

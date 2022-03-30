@@ -15,6 +15,6 @@ func TestGetTimeIn(t *testing.T) {
 }
 
 func TestGetDay(t *testing.T) {
-	d := hatime.SaturdayOf(time.Now())
+	d := hatime.SundayOf(time.Now().Add(time.Hour * 24 * 5))
 	t.Fatal(d)
 }
