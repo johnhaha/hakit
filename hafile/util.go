@@ -109,7 +109,7 @@ func AppendLine(path string, content string) error {
 }
 
 func ReplaceFileInDir(path string, from string, to string, neglect ...string) error {
-	err := filepath.Walk(path, func(path string, info fs.FileInfo, err error) error {
+	err := filepath.Walk(path, func(path string, info fs.FileInfo, _ error) error {
 		if !info.IsDir() && !hadata.IsInSlice(neglect, info.Name()) {
 			writer := NewFileWriter(path)
 			err := writer.Replace(from, to)

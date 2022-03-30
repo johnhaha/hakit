@@ -21,3 +21,28 @@ func GetManyRandomNumber(min int, max int, count int) []int {
 	}
 	return ot
 }
+
+type Adder struct {
+	Step int
+	Min  int
+	Max  int
+}
+
+func NewAdder(min int, max int, step int) *Adder {
+	return &Adder{
+		Step: step,
+		Min:  min,
+		Max:  max,
+	}
+}
+
+func (adder *Adder) Add(base int) int {
+	if base < adder.Min {
+		return adder.Min
+	}
+	o := base + adder.Step
+	if o > adder.Max {
+		return adder.Max
+	}
+	return o
+}

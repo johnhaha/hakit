@@ -263,3 +263,19 @@ func TestRandom(t *testing.T) {
 	r := hadata.GetManyRandomNumber(0, 10, 3)
 	t.Fatal(r)
 }
+
+func TestAdder(t *testing.T) {
+	adder := hadata.NewAdder(3, 10, 1)
+	res := adder.Add(0)
+	if res != 3 {
+		t.Fatal(res)
+	}
+	res = adder.Add(5)
+	if res != 6 {
+		t.Fatal(res)
+	}
+	res = adder.Add(10)
+	if res != 10 {
+		t.Fatal(res)
+	}
+}
