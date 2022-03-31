@@ -279,3 +279,8 @@ func TestAdder(t *testing.T) {
 		t.Fatal(res)
 	}
 }
+
+func TestFloatCompare(t *testing.T) {
+	res := hadata.FloatCompare(1.22222, 1.21433, 2)
+	t.Fatal(res)
+}
