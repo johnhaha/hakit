@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 )
 
 /* upgrade version
@@ -154,4 +155,37 @@ func GenerateRandomStringFromGivenRune(r []rune, n int) string {
 		b[i] = r[rand.Intn(len(r))]
 	}
 	return string(b)
+}
+
+func SplitStringOnUpperCase(str string) []string {
+	var ot []string
+	var e string
+	for i, s := range str {
+		if i == 0 {
+			e = string(s)
+			continue
+		}
+		if unicode.IsUpper(s) {
+			ot = append(ot, e)
+			e = string(s)
+		} else {
+			e += string(s)
+		}
+	}
+	ot = append(ot, e)
+	return ot
+}
+
+func CaseCamelToSnake(str string) string {
+	res := SplitStringOnUpperCase(str)
+	var ot string
+	for i, s := range res {
+		x := strings.ToLower(s)
+		if i == 0 {
+			ot = x
+			continue
+		}
+		ot += "_" + x
+	}
+	return ot
 }

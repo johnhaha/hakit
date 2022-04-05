@@ -284,3 +284,15 @@ func TestFloatCompare(t *testing.T) {
 	res := hadata.FloatCompare(1.22222, 1.21433, 2)
 	t.Fatal(res)
 }
+
+func TestSplitStringOnUpperCase(t *testing.T) {
+	data := "myNameIsJohn"
+	res := hadata.SplitStringOnUpperCase(data)
+	t.Fatal(res)
+}
+
+func TestCamelToSnake(t *testing.T) {
+	data := "myNameIsJohn"
+	res := hadata.CaseCamelToSnake(data)
+	t.Fatal(res)
+}
