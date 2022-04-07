@@ -286,13 +286,13 @@ func TestFloatCompare(t *testing.T) {
 }
 
 func TestSplitStringOnUpperCase(t *testing.T) {
-	data := "myNameIsJohn"
+	data := "My"
 	res := hadata.SplitStringOnUpperCase(data)
 	t.Fatal(res)
 }
 
 func TestCamelToSnake(t *testing.T) {
-	data := "myNameIsJohn"
+	data := "John"
 	res := hadata.CaseCamelToSnake(data)
 	t.Fatal(res)
 }

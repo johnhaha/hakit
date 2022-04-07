@@ -189,3 +189,7 @@ func CaseCamelToSnake(str string) string {
 	}
 	return ot
 }
+
+func GetStringLengthInRune(str string) int {
+	return len([]rune(str))
+}
