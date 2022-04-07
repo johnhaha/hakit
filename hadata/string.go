@@ -190,6 +190,6 @@ func CaseCamelToSnake(str string) string {
 	return ot
 }
 
-func GetStringLengthInRune(str string) int {
+func RuneLen(str string) int {
 	return len([]rune(str))
 }
