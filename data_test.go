@@ -296,3 +296,10 @@ func TestCamelToSnake(t *testing.T) {
 	res := hadata.CaseCamelToSnake(data)
 	t.Fatal(res)
 }
+
+func TestMapFromSlice(t *testing.T) {
+	ot := hadata.MapFromSlice([]string{"w", "s"}, func(t string) string {
+		return t
+	})
+	t.Fatal(ot)
+}

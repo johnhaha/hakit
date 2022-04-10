@@ -19,3 +19,11 @@ func GetStringMap(data map[string]any) (map[string]string, error) {
 	}
 	return ot, nil
 }
+
+func MapFromSlice[T any](data []T, getKey func(T) string) map[string]T {
+	ot := make(map[string]T)
+	for _, d := range data {
+		ot[getKey(d)] = d
+	}
+	return ot
+}
