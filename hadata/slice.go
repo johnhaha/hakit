@@ -54,3 +54,11 @@ func Map[T any, Q any](data []T, trans func(T) Q) []Q {
 	}
 	return ot
 }
+
+func Transform[T any, Q any](data []T, trans func(T) []Q) []Q {
+	var ot []Q
+	for _, d := range data {
+		ot = append(ot, trans(d)...)
+	}
+	return ot
+}
