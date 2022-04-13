@@ -303,3 +303,11 @@ func TestMapFromSlice(t *testing.T) {
 	})
 	t.Fatal(ot)
 }
+
+func TestMap(t *testing.T) {
+	data := []string{"1", "22"}
+	res := hadata.Map(data, func(t string) int {
+		return len(t)
+	})
+	t.Fatal(res)
+}

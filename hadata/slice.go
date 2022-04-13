@@ -46,3 +46,11 @@ func SwapSlice[T any](ds *[]T) error {
 	(*ds)[1] = dTemp
 	return nil
 }
+
+func Map[T any, Q any](data []T, trans func(T) Q) []Q {
+	ot := make([]Q, len(data))
+	for i, d := range data {
+		ot[i] = trans(d)
+	}
+	return ot
+}
