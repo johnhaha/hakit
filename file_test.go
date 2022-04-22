@@ -131,3 +131,10 @@ func TestListFolderFile(t *testing.T) {
 		t.Fatal(res)
 	}
 }
+
+func TestRemFile(t *testing.T) {
+	err := hafile.RemFileInDirByName("test", "1", func(s string) {})
+	if err != nil {
+		t.Fatal(err)
+	}
+}

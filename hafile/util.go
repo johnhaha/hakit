@@ -119,3 +119,15 @@ func ReplaceFileInDir(path string, from string, to string, neglect ...string) er
 	})
 	return err
 }
+
+//will rem file or folder if name contains 'name'
+func RemFileInDirByName(path string, name string, onRem func(string)) error {
+	err := filepath.Walk(path, func(p string, _ fs.FileInfo, _ error) error {
+		if strings.Contains(p, name) {
+			onRem(p)
+			return os.Remove(p)
+		}
+		return nil
+	})
+	return err
+}
