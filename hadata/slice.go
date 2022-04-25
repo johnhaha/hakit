@@ -62,3 +62,10 @@ func Transform[T any, Q any](data []T, trans func(T) []Q) []Q {
 	}
 	return ot
 }
+
+func Combine[T any, Q any](data []T, target Q, combine func(T, Q) T) []T {
+	for i, d := range data {
+		data[i] = combine(d, target)
+	}
+	return data
+}
