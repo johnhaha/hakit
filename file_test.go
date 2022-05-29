@@ -141,6 +141,6 @@ func TestRemFile(t *testing.T) {
 }
 
 func TestTrace(t *testing.T) {
-	res := haerr.GetTrace()
-	t.Fatal(res)
+	haerr.Trace()
+	t.Fatal("res")
 }
