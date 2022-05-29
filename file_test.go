@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/johnhaha/hakit/hacmd"
+	"github.com/johnhaha/hakit/haerr"
 	"github.com/johnhaha/hakit/hafile"
 	"github.com/johnhaha/hakit/hareq"
 )
@@ -137,4 +138,9 @@ func TestRemFile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+}
+
+func TestTrace(t *testing.T) {
+	res := haerr.GetTrace()
+	t.Fatal(res)
 }
