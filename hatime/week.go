@@ -29,3 +29,8 @@ func SundayOf(tm time.Time) time.Time {
 	now.WeekStartDay = time.Monday
 	return now.With(tm).EndOfWeek().Add(-time.Hour*24 + 1)
 }
+
+func WeekEndOf(tm time.Time) time.Time {
+	now.WeekStartDay = time.Monday
+	return now.With(tm).EndOfWeek()
+}
