@@ -69,3 +69,14 @@ func Combine[T any, Q any](data []T, target Q, combine func(T, Q) T) []T {
 	}
 	return data
 }
+
+func RemElement[T any](data []T, index int) []T {
+	return append(data[:index], data[index+1:]...)
+}
+
+//remove specific element by replace it with the last element, it's faster, but order changed
+func RemElementX[T any](data []T, index int) []T {
+	l := len(data)
+	data[index] = data[l-1]
+	return data[:l-1]
+}
