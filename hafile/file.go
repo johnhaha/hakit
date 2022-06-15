@@ -65,7 +65,7 @@ func (reader *FileReader) FineText(text string) (int, string, error) {
 func (reader *FileReader) ReadLine(line int) (string, error) {
 	fileIO, err := os.OpenFile(reader.Path, os.O_RDWR, 0644)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	defer fileIO.Close()
 	sc := bufio.NewScanner(fileIO)

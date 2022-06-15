@@ -57,7 +57,8 @@ func CheckFile(path string) bool {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		f, err := os.Create(path)
 		if err != nil {
-			panic(err)
+			log.Print(err)
+			return false
 		}
 		defer f.Close()
 		return false
@@ -113,7 +114,9 @@ func ReplaceFileInDir(path string, from string, to string, neglect ...string) er
 		if !info.IsDir() && !hadata.IsInSlice(neglect, info.Name()) {
 			writer := NewFileWriter(path)
 			err := writer.Replace(from, to)
-			log.Print(err)
+			if err != nil {
+				log.Print(err)
+			}
 		}
 		return nil
 	})
