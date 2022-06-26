@@ -1,13 +1,22 @@
 package hacmd
 
-import "os"
+import (
+	"os"
+)
 
 type Commander struct {
-	Path string
+	OriginPath string
+	Path       string
 }
 
 func NewCommander() *Commander {
-	return &Commander{}
+	currentPath, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	return &Commander{
+		OriginPath: currentPath,
+	}
 }
 
 func (cmd *Commander) SetPath(path string) *Commander {
@@ -20,4 +29,8 @@ func (cmd *Commander) Execute(name string, args ...string) {
 		os.Chdir(cmd.Path)
 	}
 	Execute(name, args...)
+}
+
+func (cmd *Commander) GoOrigin() error {
+	return os.Chdir(cmd.OriginPath)
 }
