@@ -2,7 +2,7 @@ package hadata
 
 import "encoding/json"
 
-func GetDataFromMap[T any](m interface{}) (T, error) {
+func GetDataFromMap[T any](m any) (T, error) {
 	var data T
 	err := MapToStruct(m, &data)
 	return data, err

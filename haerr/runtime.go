@@ -7,8 +7,11 @@ import (
 
 /* trace skip
 0: caller it self, no use
+
 1: GetTrace func, no use
+
 2: place call GetTrace
+
 3: func call GetTrace
 */
 func GetTrace(skip int) string {

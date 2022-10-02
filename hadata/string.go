@@ -7,11 +7,23 @@ import (
 	"strings"
 	"time"
 	"unicode"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
-/* upgrade version
+func TitleWord(word string) string {
+	c := cases.Title(language.English)
+	return c.String(word)
+}
+
+/*
+	upgrade version
+
 place start from 1
- can be used in version like 1.0.1 or v1.0 */
+
+	can be used in version like 1.0.1 or v1.0
+*/
 func UpgradeVersion(version string, place int) (string, error) {
 	sp := strings.Split(version, ".")
 	if len(sp) < place {
@@ -47,7 +59,7 @@ func UpgradeVersion(version string, place int) (string, error) {
 	return op, nil
 }
 
-//transfer version to int
+// transfer version to int
 func VersionToInt(v string, blockLength int) (int, error) {
 	sp := strings.Split(VersionCleaner(v), ".")
 	for i, s := range sp {
@@ -61,13 +73,13 @@ func VersionToInt(v string, blockLength int) (int, error) {
 	return res, err
 }
 
-//rm v/V from head
+// rm v/V from head
 func VersionCleaner(v string) string {
 	s := strings.TrimLeft(v, "vV")
 	return s
 }
 
-//get string from int
+// get string from int
 func GetStringFromInt(d int) string {
 	return strconv.Itoa(d)
 }
@@ -122,7 +134,7 @@ func (binder *StringBinder) Value() string {
 	return binder.Builder.String()
 }
 
-//if v1 is empty, then v2
+// if v1 is empty, then v2
 func EmptyThen(v1 string, v2 string) string {
 	if v1 == "" {
 		return v2
@@ -130,7 +142,7 @@ func EmptyThen(v1 string, v2 string) string {
 	return v1
 }
 
-//generate random fixed length string
+// generate random fixed length string
 var upperLetters = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 var letters = []rune("abcdefghijklmnopqrstuvwxyz")
 var digitalLetters = []rune("1234567890")

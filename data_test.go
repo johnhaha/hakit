@@ -8,6 +8,14 @@ import (
 	"github.com/johnhaha/hakit/hatest"
 )
 
+func TestTitleWord(t *testing.T) {
+	word := "test"
+	res := hadata.TitleWord(word)
+	if res != "Test" {
+		t.Fatal(res)
+	}
+}
+
 func TestUpVersion(t *testing.T) {
 	v := []hatest.InOut[string, string]{
 		{
@@ -84,11 +92,11 @@ func TestStringBuilder(t *testing.T) {
 }
 
 func TestVersionToInt(t *testing.T) {
-	res, err := hadata.VersionToInt("V0.2.4", 3)
+	res, err := hadata.VersionToInt("v1.2.104", 3)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if res != 1000002004 {
+	if res != 1001002104 {
 		t.Fatal(res)
 	}
 }
