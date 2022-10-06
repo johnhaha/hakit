@@ -13,7 +13,7 @@ import (
 )
 
 func TitleWord(word string) string {
-	c := cases.Title(language.English)
+	c := cases.Title(language.English, cases.NoLower)
 	return c.String(word)
 }
 
