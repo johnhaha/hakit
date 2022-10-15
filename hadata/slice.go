@@ -14,7 +14,7 @@ func Unique[T comparable](strSlice []T) []T {
 	return list
 }
 
-//check is data is in list
+// check is data is in list
 func IsInSlice[T comparable](list []T, data T) bool {
 	for _, l := range list {
 		if l == data {
@@ -36,7 +36,7 @@ func InterSlice[T comparable](s1 []T, s2 []T) []T {
 	return op
 }
 
-//swap slice
+// swap slice
 func SwapSlice[T any](ds *[]T) error {
 	if len(*ds) != 2 {
 		return errors.New("not support")
@@ -48,9 +48,10 @@ func SwapSlice[T any](ds *[]T) error {
 }
 
 func Map[T any, Q any](data []T, trans func(T) Q) []Q {
-	ot := make([]Q, len(data))
-	for i, d := range data {
-		ot[i] = trans(d)
+	l := len(data)
+	ot := make([]Q, l)
+	for i := 0; i < l; i++ {
+		ot[i] = trans(data[i])
 	}
 	return ot
 }
@@ -74,7 +75,7 @@ func RemElement[T any](data []T, index int) []T {
 	return append(data[:index], data[index+1:]...)
 }
 
-//remove specific element by replace it with the last element, it's faster, but order changed
+// remove specific element by replace it with the last element, it's faster, but order changed
 func RemElementX[T any](data []T, index int) []T {
 	l := len(data)
 	data[index] = data[l-1]
