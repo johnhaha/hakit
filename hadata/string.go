@@ -89,6 +89,11 @@ func GetIntFromString(s string) (int, error) {
 	return intVar, err
 }
 
+func GetInt64FromString(s string) (int64, error) {
+	intVar, err := strconv.ParseInt(s, 10, 64)
+	return intVar, err
+}
+
 type StringBinder struct {
 	Builder strings.Builder
 }
