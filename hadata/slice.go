@@ -56,6 +56,16 @@ func Map[T any, Q any](data []T, trans func(T) Q) []Q {
 	return ot
 }
 
+func Maps[T any, Q any, R any](data []T, trans func(T) (Q, R)) ([]Q, []R) {
+	l := len(data)
+	ot1 := make([]Q, l)
+	ot2 := make([]R, l)
+	for i := 0; i < l; i++ {
+		ot1[i], ot2[i] = trans(data[i])
+	}
+	return ot1, ot2
+}
+
 func Transform[T any, Q any](data []T, trans func(T) []Q) []Q {
 	var ot []Q
 	for _, d := range data {
