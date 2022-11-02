@@ -91,3 +91,36 @@ func RemElementX[T any](data []T, index int) []T {
 	data[index] = data[l-1]
 	return data[:l-1]
 }
+
+func RemWhere[T any](data []T, where func(T) bool) []T {
+	if l := len(data); l > 0 {
+		var ot []T
+		for i := 0; i < l; i++ {
+			check := data[i]
+			if where(check) {
+				continue
+			}
+			ot = append(ot, check)
+		}
+		return ot
+	}
+	return nil
+}
+
+// remove element by replace it with the last elements, it's faster, but order will be changed
+//
+// use this function if you don't care about the original order
+func RemWhereX[T any](data []T, where func(T) bool) []T {
+	if l := len(data); l > 0 {
+		var k int
+		for i := l - 1; i >= 0; i-- {
+			check := data[i]
+			if where(check) {
+				k++
+				data[i] = data[l-k]
+			}
+		}
+		return data[:l-k]
+	}
+	return nil
+}

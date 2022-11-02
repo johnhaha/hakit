@@ -8,6 +8,23 @@ import (
 	"github.com/johnhaha/hakit/hatest"
 )
 
+func BenchmarkXxx(b *testing.B) {
+	data := []string{"a", "b", "c", "c", "c", "c", "c", "c", "c", "a", "sd"}
+	for i := 0; i < b.N; i++ {
+		hadata.RemWhereX(data, func(x string) bool {
+			return x == "c"
+		})
+	}
+}
+
+func TestRemWhere(t *testing.T) {
+	data := []string{"a", "b", "c", "c", "c", "c", "c", "c", "c", "a", "sd"}
+	res := hadata.RemWhereX(data, func(x string) bool {
+		return x == "c"
+	})
+	t.Fatal(res)
+}
+
 func TestTitleWord(t *testing.T) {
 	word := "test"
 	res := hadata.TitleWord(word)
