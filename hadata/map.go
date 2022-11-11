@@ -2,7 +2,7 @@ package hadata
 
 import "encoding/json"
 
-//transfer 'any' value to string or json if not string
+// transfer 'any' value to string or json if not string
 func GetStringMap(data map[string]any) (map[string]string, error) {
 	ot := make(map[string]string)
 	for k, v := range data {
@@ -26,4 +26,12 @@ func MapFromSlice[T any](data []T, getKey func(T) string) map[string]T {
 		ot[getKey(d)] = d
 	}
 	return ot
+}
+
+func GetMapKey(m map[string]any) []string {
+	keys := make([]string, 0, len(m))
+	for key := range m {
+		keys = append(keys, key)
+	}
+	return keys
 }
