@@ -28,7 +28,7 @@ func MapFromSlice[T any](data []T, getKey func(T) string) map[string]T {
 	return ot
 }
 
-func GetMapKey(m map[string]any) []string {
+func GetMapKey[T any](m map[string]T) []string {
 	keys := make([]string, 0, len(m))
 	for key := range m {
 		keys = append(keys, key)
