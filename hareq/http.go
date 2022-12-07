@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -25,7 +24,7 @@ func Get(url string, header map[string]string) ([]byte, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	bodyRes, err := ioutil.ReadAll(resp.Body)
+	bodyRes, err := io.ReadAll(resp.Body)
 	return bodyRes, err
 }
 
@@ -40,7 +39,7 @@ func Delete(url string, header map[string]string) ([]byte, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	bodyRes, err := ioutil.ReadAll(resp.Body)
+	bodyRes, err := io.ReadAll(resp.Body)
 	return bodyRes, err
 }
 
@@ -57,7 +56,7 @@ func Post(url string, body interface{}, header map[string]string) ([]byte, error
 		return nil, err
 	}
 	defer resp.Body.Close()
-	bodyRes, err := ioutil.ReadAll(resp.Body)
+	bodyRes, err := io.ReadAll(resp.Body)
 	return bodyRes, err
 }
 
@@ -74,11 +73,11 @@ func Put(url string, body interface{}, header map[string]string) ([]byte, error)
 		return nil, err
 	}
 	defer resp.Body.Close()
-	bodyRes, err := ioutil.ReadAll(resp.Body)
+	bodyRes, err := io.ReadAll(resp.Body)
 	return bodyRes, err
 }
 
-//post with body and url, get decoded res
+// post with body and url, get decoded res
 func FastPost(body interface{}, url string, resData interface{}) error {
 	res, err := Post(url, body, map[string]string{
 		"Content-Type": "application/json; charset=utf-8",
@@ -90,7 +89,7 @@ func FastPost(body interface{}, url string, resData interface{}) error {
 	return err
 }
 
-//get with url, get decoded res
+// get with url, get decoded res
 func FastGet(url string, resData interface{}) error {
 	res, err := Get(url, nil)
 	if err != nil {
@@ -100,7 +99,7 @@ func FastGet(url string, resData interface{}) error {
 	return err
 }
 
-//post with body, url and auth, get decoded res
+// post with body, url and auth, get decoded res
 func AuthFastPost(body interface{}, url string, resData interface{}, th string) error {
 	res, err := Post(url, body, map[string]string{
 		"Authorization": th,
@@ -160,7 +159,7 @@ func FastUpload(url string, body map[string]string, resData interface{}, files .
 		return err
 	}
 	defer resp.Body.Close()
-	resp_body, err := ioutil.ReadAll(resp.Body)
+	resp_body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}

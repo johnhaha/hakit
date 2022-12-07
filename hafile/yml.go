@@ -1,7 +1,6 @@
 package hafile
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -37,7 +36,7 @@ func NewYmlWriter(path string) *YmlWriter {
 }
 
 func (reader *YmlReader) Parser(data interface{}) error {
-	yfile, err := ioutil.ReadFile(reader.Path)
+	yfile, err := os.ReadFile(reader.Path)
 	if err != nil {
 		return err
 	}
@@ -54,7 +53,7 @@ func (writer *YmlWriter) Write(data interface{}) error {
 		return err
 	}
 	CheckFile(writer.Path)
-	err = ioutil.WriteFile(writer.Path, datao, 0600)
+	err = os.WriteFile(writer.Path, datao, 0600)
 	if err != nil {
 		return err
 	}

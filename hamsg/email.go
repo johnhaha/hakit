@@ -25,7 +25,7 @@ func NewMailer(account string, psw string, smtpHost string, smtpPort int) *Maile
 	}
 }
 
-//set body type, 'text/plain' 'text/html'...
+// set body type, 'text/plain' 'text/html'...
 func (mailer *Mailer) SetContentType(contentType string) {
 	mailer.ContentType = contentType
 }

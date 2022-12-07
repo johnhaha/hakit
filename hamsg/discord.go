@@ -1,7 +1,7 @@
 package hamsg
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -31,7 +31,7 @@ func (hook *DiscordHook) Send(content string) error {
 	}
 	log.Println(res.Status)
 	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		log.Fatal(err)
 	}

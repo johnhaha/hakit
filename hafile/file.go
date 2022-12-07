@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
-	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -40,7 +39,7 @@ func NewFileReader(path string) *FileReader {
 	return &FileReader{Path: path}
 }
 
-//find text in line, return line(start from 1), line content
+// find text in line, return line(start from 1), line content
 func (reader *FileReader) FineText(text string) (int, string, error) {
 	f, err := os.Open(reader.Path)
 	if err != nil {
@@ -61,7 +60,7 @@ func (reader *FileReader) FineText(text string) (int, string, error) {
 	return -1, "", nil
 }
 
-//read specific line in file
+// read specific line in file
 func (reader *FileReader) ReadLine(line int) (string, error) {
 	fileIO, err := os.OpenFile(reader.Path, os.O_RDWR, 0644)
 	if err != nil {
@@ -79,15 +78,15 @@ func (reader *FileReader) ReadLine(line int) (string, error) {
 	return "", errors.New("not found")
 }
 
-//replace line with content
+// replace line with content
 func (reader *FileReader) ReplaceLine(line int, content string) error {
 	err := WriteLine(reader.Path, line, content)
 	return err
 }
 
-//read file in string
+// read file in string
 func (reader *FileReader) Read() (string, error) {
-	data, err := ioutil.ReadFile(reader.Path)
+	data, err := os.ReadFile(reader.Path)
 	if err != nil {
 		return "", err
 	}
@@ -122,14 +121,14 @@ func (writer *FileWriter) Update(text string) error {
 }
 
 func (writer *FileWriter) Replace(from string, to string) error {
-	input, err := ioutil.ReadFile(writer.Path)
+	input, err := os.ReadFile(writer.Path)
 	if err != nil {
 		return err
 	}
 
 	output := bytes.Replace(input, []byte(from), []byte(to), -1)
 
-	if err = ioutil.WriteFile(writer.Path, output, 0644); err != nil {
+	if err = os.WriteFile(writer.Path, output, 0644); err != nil {
 		return err
 	}
 	return nil

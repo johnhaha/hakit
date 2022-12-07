@@ -2,7 +2,7 @@ package hafile
 
 import (
 	"encoding/xml"
-	"io/ioutil"
+	"io"
 	"os"
 )
 
@@ -20,7 +20,7 @@ func (x *XmlFile) Parse(data interface{}) error {
 		return err
 	}
 	defer xmlFile.Close()
-	byteValue, _ := ioutil.ReadAll(xmlFile)
+	byteValue, _ := io.ReadAll(xmlFile)
 	err = xml.Unmarshal(byteValue, data)
 	return err
 }
