@@ -336,3 +336,11 @@ func TestMap(t *testing.T) {
 	})
 	t.Fatal(res)
 }
+
+func TestFold(t *testing.T) {
+	data := []int{1, 2, 3}
+	res := hadata.Fold(data, 0, func(v int, t int) int {
+		return v + t
+	})
+	t.Fatal(res)
+}

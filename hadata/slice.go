@@ -124,3 +124,13 @@ func RemWhereX[T any](data []T, where func(T) bool) []T {
 	}
 	return nil
 }
+
+func Fold[V any, T any](data []T, initValue V, fold func(v V, d T) V) V {
+	value := initValue
+	if l := len(data); l > 0 {
+		for i := 0; i < l; i++ {
+			value = fold(value, data[i])
+		}
+	}
+	return value
+}
