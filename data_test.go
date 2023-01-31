@@ -344,3 +344,13 @@ func TestFold(t *testing.T) {
 	})
 	t.Fatal(res)
 }
+
+func TestAny(t *testing.T) {
+	data := []int{1, 2, 5}
+	res := hadata.Any(data, func(x int) bool {
+		return x < 4
+	})
+	if !res {
+		t.Fatal("fucked")
+	}
+}

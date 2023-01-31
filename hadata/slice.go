@@ -134,3 +134,25 @@ func Fold[V any, T any](data []T, initValue V, fold func(v V, d T) V) V {
 	}
 	return value
 }
+
+func Any[T any](data []T, check func(d T) bool) bool {
+	if l := len(data); l > 0 {
+		for i := 0; i < l; i++ {
+			if check(data[i]) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func Every[T any](data []T, check func(d T) bool) bool {
+	if l := len(data); l > 0 {
+		for i := 0; i < l; i++ {
+			if !check(data[i]) {
+				return false
+			}
+		}
+	}
+	return true
+}
