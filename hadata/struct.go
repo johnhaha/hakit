@@ -4,6 +4,7 @@ import (
 	"errors"
 	"reflect"
 	"strings"
+	"unicode"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -68,6 +69,19 @@ func GetStructName(data any) string {
 	return t.Name()
 }
 
+func GetStructNameInFirstLetterLowerCase(data any) string {
+	t := reflect.TypeOf(data)
+	var name string
+	if t.Kind() == reflect.Ptr {
+		name = t.Elem().Name()
+	} else {
+		name = t.Name()
+	}
+	r := []rune(name)
+	r[0] = unicode.ToLower(r[0])
+	return string(r)
+}
+
 func GetStructNameInLowerCase(data any) string {
 	t := reflect.TypeOf(data)
 	var name string
@@ -79,7 +93,7 @@ func GetStructNameInLowerCase(data any) string {
 	return strings.ToLower(name)
 }
 
-//return struct tag data, in json key, empty field will be dropped unless specified in including field
+// return struct tag data, in json key, empty field will be dropped unless specified in including field
 func ReadStructTagData(data any, tag string, includingField ...string) (map[string]any, error) {
 	d := ClearPointer(data)
 
@@ -116,7 +130,7 @@ func LookUpFirstTagMark(data any, tag string, mark string) (name string, value a
 	return "", nil, errors.New("not found")
 }
 
-//return field in json tag name
+// return field in json tag name
 func FindTagFiled[T any](tag string, mark string) []string {
 	var data T
 	d := ClearPointer(data)
@@ -133,7 +147,7 @@ func FindTagFiled[T any](tag string, mark string) []string {
 	return filed
 }
 
-//return field in json tag name
+// return field in json tag name
 func FindTypeFiled[T any, V any]() []string {
 	var data T
 	var target V

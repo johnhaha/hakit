@@ -354,3 +354,11 @@ func TestAny(t *testing.T) {
 		t.Fatal("fucked")
 	}
 }
+
+func TestCase(t *testing.T) {
+	type TestStructXXX struct{}
+	res := hadata.GetStructNameInFirstLetterLowerCase(TestStructXXX{})
+	if res != "testStructXXX" {
+		t.Fatal(res)
+	}
+}
