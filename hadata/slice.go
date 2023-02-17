@@ -2,6 +2,13 @@ package hadata
 
 import "errors"
 
+func SubMaxLen[T any](list []T, length int) []T {
+	if len(list) > length {
+		return list[0:length]
+	}
+	return list
+}
+
 func Unique[T comparable](strSlice []T) []T {
 	keys := make(map[T]bool)
 	list := []T{}

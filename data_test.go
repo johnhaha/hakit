@@ -362,3 +362,9 @@ func TestCase(t *testing.T) {
 		t.Fatal(res)
 	}
 }
+
+func TestSubMaxLen(t *testing.T) {
+	data := []int{1, 2, 3, 4, 4}
+	res := hadata.SubMaxLen(data, 9)
+	t.Fatal(res)
+}
