@@ -25,26 +25,27 @@ place start from 1
 	can be used in version like 1.0.1 or v1.0
 */
 func UpgradeVersion(version string, place int) (string, error) {
-	sp := strings.Split(version, ".")
+	head, body := GetVersionData(version)
+
+	sp := strings.Split(body, ".")
 	if len(sp) < place {
 		return "", errors.New("bad version")
 	}
-	withHead := false
-	if place == 1 {
-		if sp[0][0:1] == "v" {
-			withHead = true
-			sp[0] = sp[0][1:]
-		}
-	}
+	// head := ""
+
+	// if place == 1 {
+	// 	if h := sp[0][0:1]; h == "v" || h == "^" {
+	// 		head = h
+	// 		sp[0] = sp[0][1:]
+	// 	}
+	// }
 	l, err := strconv.Atoi(sp[place-1])
 	if err != nil {
 		return "", err
 	}
 	sp[place-1] = strconv.Itoa(l + 1)
-	op := ""
-	if withHead {
-		op = "v"
-	}
+
+	op := head
 	for i, v := range sp {
 		if i == 0 {
 			op = op + v
@@ -57,6 +58,18 @@ func UpgradeVersion(version string, place int) (string, error) {
 		op = op + "." + v
 	}
 	return op, nil
+}
+
+func GetVersionData(version string) (head string, body string) {
+	if version == "" {
+		return
+	}
+	if h := version[0:1]; h == "v" || h == "^" {
+		head = h
+		body = version[1:]
+		return
+	}
+	return "", version
 }
 
 // transfer version to int

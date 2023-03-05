@@ -40,12 +40,16 @@ func TestUpVersion(t *testing.T) {
 			Output: "2.0.0",
 		},
 		{
-			Input:  "1.1.1",
-			Output: "2.0.0",
+			Input:  "^1.1.1",
+			Output: "^2.0.0",
 		},
 		{
 			Input:  "v1.0.1",
 			Output: "v2.0.0",
+		},
+		{
+			Input:  "^1.0.1",
+			Output: "^2.0.0",
 		},
 	}
 	for i, x := range v {
