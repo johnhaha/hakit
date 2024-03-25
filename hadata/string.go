@@ -220,6 +220,19 @@ func CaseCamelToSnake(str string) string {
 	return ot
 }
 
+func SnakeToCaseCamel(str string, isTitle bool) string {
+	sp := strings.Split(str, "_")
+	var ot string
+	for i, s := range sp {
+		if i == 0 && !isTitle {
+			ot = s
+			continue
+		}
+		ot += TitleWord(s)
+	}
+	return ot
+}
+
 func RuneLen(str string) int {
 	return len([]rune(str))
 }
