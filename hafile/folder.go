@@ -2,6 +2,7 @@ package hafile
 
 import (
 	"os"
+	"strings"
 
 	"github.com/otiai10/copy"
 )
@@ -12,7 +13,20 @@ func CopyFolder(src, dst string) error {
 	return err
 }
 
-// check folder and create if not exist
+// check folder in path and create if not exist
+func CheckFolderX(path string) (newCreated bool) {
+	folders := strings.Split(path, "/")
+	for i := 0; i < len(folders); i++ {
+		folder := strings.Join(folders[:i+1], "/")
+		if _, err := os.Stat(folder); os.IsNotExist(err) {
+			os.Mkdir(folder, 0700)
+			newCreated = true
+		}
+	}
+	return
+}
+
+// check single folder and create if not exist
 func CheckFolder(path string) (newCreated bool) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		os.Mkdir(path, 0700)

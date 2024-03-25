@@ -16,7 +16,7 @@ func TestCopy(t *testing.T) {
 	}
 }
 
-//test check and create file
+// test check and create file
 func TestCreateFile(t *testing.T) {
 	hafile.CheckFile("test.yml")
 }
@@ -143,4 +143,18 @@ func TestRemFile(t *testing.T) {
 func TestTrace(t *testing.T) {
 	haerr.Trace()
 	t.Fatal("res")
+}
+
+func TestParseCsv(t *testing.T) {
+	type Data struct {
+		Id   string `csv:"client_id"`
+		Name string `csv:"client_name"`
+		Age  string `csv:"client_age"`
+	}
+	data := []*Data{}
+	err := hafile.ParseCsv("/Users/junwu/develop/pkg/hakit/test/test.csv", &data)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Fatal(data[0].Name)
 }
