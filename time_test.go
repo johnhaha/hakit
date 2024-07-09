@@ -18,3 +18,8 @@ func TestGetDay(t *testing.T) {
 	d := hatime.SundayOf(time.Now().Add(time.Hour * 24 * 5))
 	t.Fatal(d)
 }
+
+func TestNextHour(t *testing.T) {
+	res := hatime.NextHourOf(time.Now(), 9)
+	t.Fatal(res)
+}
