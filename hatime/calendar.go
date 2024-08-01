@@ -39,3 +39,13 @@ func WeekStartOf(tm time.Time) time.Time {
 	now.WeekStartDay = time.Monday
 	return now.With(tm).BeginningOfWeek()
 }
+
+func MonthEndOf(tm time.Time) time.Time {
+	now.WeekStartDay = time.Monday
+	return now.With(tm).EndOfMonth()
+}
+
+func MonthStartOf(tm time.Time) time.Time {
+	now.WeekStartDay = time.Monday
+	return now.With(tm).BeginningOfMonth()
+}
