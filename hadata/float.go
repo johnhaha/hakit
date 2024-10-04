@@ -10,6 +10,11 @@ type FloatData interface {
 	float32 | float64
 }
 
+func ToFixed(data float64, place uint8) float64 {
+	pw := math.Pow(10, float64(place))
+	return math.Round(data*pw) / pw
+}
+
 func GetFloatFromString(d string) (float64, error) {
 	f, err := strconv.ParseFloat(d, 64)
 	return f, err
@@ -19,7 +24,9 @@ func GetStringFromFloat[T FloatData](f T) string {
 	return fmt.Sprintf("%f", f)
 }
 
-/* data return
+/*
+	data return
+
 -1: f1<f2
 0: f1=f2
 1:f1>f2

@@ -121,6 +121,20 @@ func ReplaceFileInDir(path string, from string, to string, neglect ...string) er
 	return err
 }
 
+func ReplaceFileInDirX(path string, data map[string]string, neglect ...string) error {
+	err := filepath.Walk(path, func(path string, info fs.FileInfo, _ error) error {
+		if !info.IsDir() && !hadata.IsInSlice(neglect, info.Name()) {
+			writer := NewFileWriter(path)
+			err := writer.ReplaceMulti(data)
+			if err != nil {
+				log.Print(err)
+			}
+		}
+		return nil
+	})
+	return err
+}
+
 // will rem file or folder if name contains 'name'
 func RemFileInDirByName(path string, name string, onRem func(string)) error {
 	files, err := os.ReadDir(path)

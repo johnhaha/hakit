@@ -133,3 +133,18 @@ func (writer *FileWriter) Replace(from string, to string) error {
 	}
 	return nil
 }
+
+func (writer *FileWriter) ReplaceMulti(data map[string]string) error {
+	str, err := os.ReadFile(writer.Path)
+	if err != nil {
+		return err
+	}
+	for k, v := range data {
+		str = bytes.Replace(str, []byte(k), []byte(v), -1)
+	}
+
+	if err = os.WriteFile(writer.Path, str, 0644); err != nil {
+		return err
+	}
+	return nil
+}
