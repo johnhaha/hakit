@@ -12,6 +12,15 @@ import (
 	"golang.org/x/text/language"
 )
 
+func GetFirstNotEmptyString(candidates ...string) (value string) {
+	for _, v := range candidates {
+		if v != "" {
+			return v
+		}
+	}
+	return
+}
+
 func TitleWord(word string) string {
 	c := cases.Title(language.English, cases.NoLower)
 	return c.String(word)
