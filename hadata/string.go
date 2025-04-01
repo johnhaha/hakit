@@ -180,7 +180,6 @@ func GenerateRandomString(n int) string {
 	pool = append(pool, letters...)
 	pool = append(pool, digitalLetters...)
 	b := make([]rune, n)
-	rand.Seed(time.Now().UnixNano())
 	for i := range b {
 		b[i] = pool[rand.Intn(len(pool))]
 	}
