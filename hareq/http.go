@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -125,7 +126,51 @@ func AuthFastGet(url string, resData interface{}, th string) error {
 	return err
 }
 
-func FastUpload(url string, body map[string]string, resData interface{}, files ...FileToUpload) error {
+// using io.reader
+func FastUploadX(url string, body map[string]string, resData any, files ...FileToUpload) error {
+	bodyBuf := &bytes.Buffer{}
+	bodyWriter := multipart.NewWriter(bodyBuf)
+	for key, val := range body {
+		err := bodyWriter.WriteField(key, val)
+		if err != nil {
+			return err
+		}
+	}
+	for _, file := range files {
+		fileWriter, err := bodyWriter.CreateFormFile(file.Name, file.Path)
+		if err != nil {
+			return err
+		}
+		_, err = io.Copy(fileWriter, file.Reader)
+		if err != nil {
+			return err
+		}
+	}
+	err := bodyWriter.Close()
+	if err != nil {
+		return err
+	}
+	resp, err := http.Post(url, bodyWriter.FormDataContentType(), bodyBuf)
+	if err != nil {
+		return err
+	}
+
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("upload failed: status %d, body: %s", resp.StatusCode, string(respBody))
+	}
+	err = json.Unmarshal(respBody, resData)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func FastUpload(url string, body map[string]string, resData any, files ...FileToUpload) error {
 	bodyBuf := &bytes.Buffer{}
 	bodyWriter := multipart.NewWriter(bodyBuf)
 	//create body data
@@ -159,11 +204,11 @@ func FastUpload(url string, body map[string]string, resData interface{}, files .
 		return err
 	}
 	defer resp.Body.Close()
-	resp_body, err := io.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
-	err = json.Unmarshal(resp_body, resData)
+	err = json.Unmarshal(respBody, resData)
 	if err != nil {
 		return err
 	}
@@ -171,8 +216,9 @@ func FastUpload(url string, body map[string]string, resData interface{}, files .
 }
 
 type FileToUpload struct {
-	Name string
-	Path string
+	Name   string
+	Path   string
+	Reader io.Reader
 }
 
 func DownloadFileFromUrl(url string, saveIn string, name string) error {
