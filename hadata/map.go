@@ -1,6 +1,9 @@
 package hadata
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"maps"
+)
 
 // transfer 'any' value to string or json if not string
 func GetStringMap(data map[string]any) (map[string]string, error) {
@@ -34,4 +37,10 @@ func GetMapKey[T any](m map[string]T) []string {
 		keys = append(keys, key)
 	}
 	return keys
+}
+
+func MergeMap[K comparable, V any](a map[K]V, b map[K]V) map[K]V {
+	n := maps.Clone(a)
+	maps.Copy(n, b)
+	return n
 }
