@@ -39,8 +39,10 @@ func GetMapKey[T any](m map[string]T) []string {
 	return keys
 }
 
-func MergeMap[K comparable, V any](a map[K]V, b map[K]V) map[K]V {
-	n := maps.Clone(a)
-	maps.Copy(n, b)
+func MergeMap[K comparable, V any](m ...map[K]V) map[K]V {
+	var n map[K]V = map[K]V{}
+	for _, d := range m {
+		maps.Copy(n, d)
+	}
 	return n
 }
