@@ -215,6 +215,9 @@ func SplitStringOnUpperCase(str string) []string {
 }
 
 func CaseCamelToSnake(str string) string {
+	if strings.Contains(str, "ID") {
+		str = strings.ReplaceAll(str, "ID", "Id")
+	}
 	res := SplitStringOnUpperCase(str)
 	var ot string
 	for i, s := range res {
