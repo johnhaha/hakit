@@ -2,6 +2,20 @@ package hadata
 
 import "errors"
 
+func SortByKeyOrder[T any, K comparable](data []T, key []K, getKey func(d T) K) []T {
+	m := make(map[K]T)
+	for _, d := range data {
+		m[getKey(d)] = d
+	}
+	var ot []T
+	for _, k := range key {
+		if d, ok := m[k]; ok {
+			ot = append(ot, d)
+		}
+	}
+	return ot
+}
+
 func SubMaxLen[T any](list []T, length int) []T {
 	if len(list) > length {
 		return list[0:length]
@@ -67,7 +81,7 @@ func Maps[T any, Q any, R any](data []T, trans func(T) (Q, R)) ([]Q, []R) {
 	l := len(data)
 	ot1 := make([]Q, l)
 	ot2 := make([]R, l)
-	for i := 0; i < l; i++ {
+	for i := range l {
 		ot1[i], ot2[i] = trans(data[i])
 	}
 	return ot1, ot2
